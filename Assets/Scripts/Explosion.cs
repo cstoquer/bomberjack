@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 
+//██████████████████████████████████████████████████████████████████████████████████████████████████████
 public class ExplosionElement : Object {
 	private Sprite[] animSprites;
 	private SpriteRenderer spriteRenderer;
@@ -16,6 +17,7 @@ public class ExplosionElement : Object {
 		set { spriteRenderer.sprite = animSprites[value]; }
 	}
 
+	//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 	public ExplosionElement(Sprite[] animSprites, int i, int j) {
 		this.animSprites = animSprites;
 		this.i = i;
@@ -27,11 +29,13 @@ public class ExplosionElement : Object {
 		gameObject.transform.position = new Vector3(i * 16, -j * 16, 0f);
 	}
 
+	//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 	public void Remove() {
 		Destroy(gameObject);
 	}
 }
 
+//██████████████████████████████████████████████████████████████████████████████████████████████████████
 public class Explosion : MonoBehaviour {
 	// all sprites to render and animate an explosion
 	public Sprite[] center;
@@ -46,10 +50,12 @@ public class Explosion : MonoBehaviour {
 	private int frame;
 	private ExplosionElement[] elements;
 
+	//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 	void Start() {
 		Create(2, 2, 3);
 	}
 
+	//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 	// Use this for initialization
 	public void Create(int i, int j, int size) {
 		List<ExplosionElement> arr = new List<ExplosionElement>();
@@ -75,12 +81,14 @@ public class Explosion : MonoBehaviour {
 		gameObject.SetActive(true);
 	}
 
+	//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 	private void AddElement(List<ExplosionElement> arr, Sprite[] type, int i, int j) {
 		// TODO test that we can add an element in map
 		// TODO also if there is a wall add a wall explosion element
 		arr.Add(new ExplosionElement(type, i, j));
 	}
 
+	//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 	// Update is called once per frame
 	void Update () {
 		if (++frame > 5) {
@@ -95,6 +103,7 @@ public class Explosion : MonoBehaviour {
 		}
 	}
 
+	//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 	private void Remove() {
 		for (int i = 0; i < elements.Length; i++) {
 			elements[i].Remove();
