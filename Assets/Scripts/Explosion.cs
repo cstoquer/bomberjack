@@ -3,11 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 
 
-public class ExplosionElement {
+public class ExplosionElement : Object {
 	private Sprite[] animSprites;
 	private SpriteRenderer spriteRenderer;
-	private int i;
-	private int j;
+
+	public GameObject gameObject;
+	public int i;
+	public int j;
 
 	public int animFrame {
 		get { return 0; }
@@ -18,11 +20,15 @@ public class ExplosionElement {
 		this.animSprites = animSprites;
 		this.i = i;
 		this.j = j;
-		GameObject gameObject = new GameObject("explosion");
+		gameObject = new GameObject("explosion");
 		spriteRenderer = gameObject.AddComponent<SpriteRenderer>();
 		spriteRenderer.sprite = animSprites[0];
 		spriteRenderer.sortingOrder = j;
 		gameObject.transform.position = new Vector3(i * 16, -j * 16, 0f);
+	}
+
+	public void Remove() {
+		Destroy(gameObject);
 	}
 }
 
@@ -38,18 +44,14 @@ public class Explosion : MonoBehaviour {
 
 	private int animFrame;
 	private int frame;
-	private bool playing;
 	private ExplosionElement[] elements;
 
 	void Start() {
-		Create(2, 2, 1);
+		Create(2, 2, 3);
 	}
 
 	// Use this for initialization
 	public void Create(int i, int j, int size) {
-		animFrame = 0;
-		frame = 0;
-		playing = true;
 		List<ExplosionElement> arr = new List<ExplosionElement>();
 
 		arr.Add(new ExplosionElement(center, i, j));
@@ -67,6 +69,10 @@ public class Explosion : MonoBehaviour {
             AddElement(arr, bottom, i, j + size);
 
 		elements = arr.ToArray();
+
+		animFrame = 0;
+		frame = 0;
+		gameObject.SetActive(true);
 	}
 
 	private void AddElement(List<ExplosionElement> arr, Sprite[] type, int i, int j) {
@@ -77,18 +83,22 @@ public class Explosion : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		if (!playing) return;
 		if (++frame > 5) {
 			frame = 0;
-			/*if (++animFrame > 5) {
-				// TODO destroy all elements
-				playing = false;
+			if (++animFrame >= 5) {
+				Remove();
 				return;
-			}*/
-			animFrame = (animFrame + 1) % 5; // TODO
+			}
 			for (int i = 0; i < elements.Length; i++) {
 				elements[i].animFrame = animFrame;
 			}
 		}
+	}
+
+	private void Remove() {
+		for (int i = 0; i < elements.Length; i++) {
+			elements[i].Remove();
+		}
+		gameObject.SetActive(false);
 	}
 }
