@@ -52,27 +52,42 @@ public class Explosion : MonoBehaviour {
 
 	//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 	void Start() {
-		Create(2, 2, 3);
+		StartCoroutine(CreateExplosionCoroutine()); // FIXME only there for testing purpose
+		//gameObject.SetActive(false);
+		elements = new ExplosionElement[0];
+	}
+
+	protected IEnumerator CreateExplosionCoroutine() {
+		// FIXME only there for testing purpose
+		yield return new WaitForSeconds(0.1f);
+		Create(1, 1, 3); 
 	}
 
 	//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 	// Use this for initialization
 	public void Create(int i, int j, int size) {
+		if (Stage.instance == null) return;
+
 		List<ExplosionElement> arr = new List<ExplosionElement>();
 
-		arr.Add(new ExplosionElement(center, i, j));
+		AddElement(arr, center, i, j);
+
+		bool t = true;
+		bool b = true;
+		bool r = true;
+		bool l = true;
 
 		for (int s = 1; s < size; s++) {
-			AddElement(arr, horizontal, i - s, j);
-			AddElement(arr, horizontal, i + s, j);
-			AddElement(arr, vertical,   i, j - s);
-			AddElement(arr, vertical,   i, j + s);
+			l = l && AddElement(arr, horizontal, i - s, j);
+			r = r && AddElement(arr, horizontal, i + s, j);
+			b = b && AddElement(arr, vertical,   i, j - s);
+			t = t && AddElement(arr, vertical,   i, j + s);
 		}
 
-		AddElement(arr, left,   i - size, j);
-            AddElement(arr, right,  i + size, j);
-            AddElement(arr, top,    i, j - size);
-            AddElement(arr, bottom, i, j + size);
+		l = l && AddElement(arr, left,   i - size, j);
+		r = r && AddElement(arr, right,  i + size, j);
+		b = b && AddElement(arr, top,    i, j - size);
+		t = t && AddElement(arr, bottom, i, j + size);
 
 		elements = arr.ToArray();
 
@@ -82,10 +97,20 @@ public class Explosion : MonoBehaviour {
 	}
 
 	//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-	private void AddElement(List<ExplosionElement> arr, Sprite[] type, int i, int j) {
-		// TODO test that we can add an element in map
+	private bool AddElement(List<ExplosionElement> arr, Sprite[] type, int i, int j) {
+		// test that we can add an element in map
+		Stage stage = Stage.instance;
+		if (i < 0 || j < 0 || i >= stage.width || j >= stage.height) return false;
+
 		// TODO also if there is a wall add a wall explosion element
-		arr.Add(new ExplosionElement(type, i, j));
+
+		if (stage.GetTile(i, j) != null) return false; // FIXME test against tile type
+
+		ExplosionElement element = new ExplosionElement(type, i, j);
+		element.gameObject.transform.SetParent(transform);
+		arr.Add(element);
+
+		return true;
 	}
 
 	//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄

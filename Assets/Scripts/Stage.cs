@@ -10,9 +10,12 @@ public class Stage : MonoBehaviour {
 	[HideInInspector] public int[,] grid;
 	[HideInInspector] public Tile[,] tiles;
 
+	public static Stage instance;
+
 	//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 	void Start() {
 		CreateStage("classic");
+		instance = this;
 	}
 
 	//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
@@ -37,8 +40,8 @@ public class Stage : MonoBehaviour {
 	}
 
 	//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-	public Tile GetTile(int x, int y) {
-		if (x < 0 || y < 0 || x >= width || y >= height) return null;
-		return tiles[x, y];
+	public Tile GetTile(int i, int j) {
+		if (i < 0 || j < 0 || i >= width || j >= height) return null;
+		return tiles[i, j];
 	}
 }
