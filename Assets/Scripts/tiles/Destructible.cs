@@ -16,7 +16,7 @@ namespace Bomberman.Tiles {
 		}
 
 		//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-		protected IEnumerator ExplosionCoroutine() {
+		protected virtual IEnumerator ExplosionCoroutine() {
 			for (int f = 0; f < destructAnim.Length; f++) {
 				spriteRenderer.sprite = destructAnim[f];
 				for (int c = 0; c < 5; c++) {

@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
+using System.Collections;
 using Pixelbox;
 
 namespace Bomberman.Tiles {
-	public class Bomb : Tile {
+	public class Bomb : Destructible {
 		[HideInInspector] public int flameSize;
 		[HideInInspector] public int timer;
 
@@ -14,7 +15,7 @@ namespace Bomberman.Tiles {
 		public override void Init(MapItem item, Stage stage) {
 			base.Init(item, stage);
 			flameSize = 4;
-			timer = 120;
+			timer = 60 + Random.Range(0, 120); // TODO
 		}
 
 		//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
@@ -38,10 +39,24 @@ namespace Bomberman.Tiles {
 		}
 
 		//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-		public override void Explode() {
-			stage.RemoveTile(i, j);
+		protected override IEnumerator ExplosionCoroutine() {
+			// wait for exactly 6 frames before explosion
+			for (int c = 0; c < 6; c++) {
+				yield return null;
+			}
+
 			GameObject instance = (GameObject)Instantiate(explosionPrefab, transform.position, Quaternion.identity);
 			instance.GetComponent<Explosion>().Init(i, j, flameSize);
+
+			for (int f = 0; f < destructAnim.Length; f++) {
+				spriteRenderer.sprite = destructAnim[f];
+				for (int c = 0; c < 5; c++) {
+					// wait for exactly one frame
+					yield return null;
+				}
+			}
+
+			stage.RemoveTile(i, j);
 			Destroy(gameObject);
 		}
 	}

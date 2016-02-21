@@ -58,7 +58,7 @@ public class Explosion : MonoBehaviour {
 
 		List<ExplosionElement> arr = new List<ExplosionElement>();
 
-		AddElement(arr, center, i, j);
+		//AddElement(arr, center, i, j);
 
 		bool t = true;
 		bool b = true;
@@ -109,7 +109,7 @@ public class Explosion : MonoBehaviour {
 	//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 	// Update is called once per frame
 	void Update () {
-		if (++frame > 5) {
+		if (++frame >= 5) {
 			frame = 0;
 			if (++animFrame >= 5) {
 				Remove();
