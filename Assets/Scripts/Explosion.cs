@@ -94,9 +94,9 @@ public class Explosion : MonoBehaviour {
 	//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 	// Update is called once per frame
 	void Update () {
-		if (++frame < 5) return;
+		if (++frame < 3) return;
 		frame = 0;
-		if (++animFrame >= 5) {
+		if (++animFrame >= 9) {
 			Remove();
 			return;
 		}
