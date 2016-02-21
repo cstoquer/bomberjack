@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using Pixelbox;
+using Bomberman.Tiles;
 
 public class Stage : MonoBehaviour {
 
@@ -38,7 +39,7 @@ public class Stage : MonoBehaviour {
 				//Tile tile = new Tile(spritesheet[item.sprite], i, j);
 				GameObject instance = (GameObject)Instantiate(spritesheet[item.sprite], new Vector3(i * TILE_SIZE, -j * TILE_SIZE, 0f), Quaternion.identity);
 				tiles[i, j] = instance.GetComponent<Tile>();
-				tiles[i, j].Init(i, j);
+				tiles[i, j].Init(item, this);
 				instance.transform.SetParent(transform);
 			}
 		}
@@ -48,5 +49,11 @@ public class Stage : MonoBehaviour {
 	public Tile GetTile(int i, int j) {
 		if (i < 0 || j < 0 || i >= width || j >= height) return null;
 		return tiles[i, j];
+	}
+
+	//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+	public void RemoveTile(int i, int j) {
+		if (i < 0 || j < 0 || i >= width || j >= height) return;
+		tiles[i, j] = null;
 	}
 }

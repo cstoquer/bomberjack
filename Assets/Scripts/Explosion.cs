@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using Bomberman.Tiles;
 
 
 //██████████████████████████████████████████████████████████████████████████████████████████████████████
@@ -48,24 +49,11 @@ public class Explosion : MonoBehaviour {
 
 	private int animFrame;
 	private int frame;
-	private ExplosionElement[] elements;
-
-	//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-	void Start() {
-		StartCoroutine(CreateExplosionCoroutine()); // FIXME only there for testing purpose
-		//gameObject.SetActive(false);
-		elements = new ExplosionElement[0];
-	}
-
-	protected IEnumerator CreateExplosionCoroutine() {
-		// FIXME only there for testing purpose
-		yield return new WaitForSeconds(0.1f);
-		Create(1, 1, 3); 
-	}
+	private ExplosionElement[] elements = new ExplosionElement[0];
 
 	//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 	// Use this for initialization
-	public void Create(int i, int j, int size) {
+	public void Init(int i, int j, int size) {
 		if (Stage.instance == null) return;
 
 		List<ExplosionElement> arr = new List<ExplosionElement>();
@@ -102,15 +90,20 @@ public class Explosion : MonoBehaviour {
 		Stage stage = Stage.instance;
 		if (i < 0 || j < 0 || i >= stage.width || j >= stage.height) return false;
 
-		// TODO also if there is a wall add a wall explosion element
+		Tile tile = stage.GetTile(i, j);
 
-		if (stage.GetTile(i, j) != null) return false; // FIXME test against tile type
+		if (tile == null) {
+			ExplosionElement element = new ExplosionElement(type, i, j);
+			element.gameObject.transform.SetParent(transform);
+			arr.Add(element);
+			return true;
+		}
 
-		ExplosionElement element = new ExplosionElement(type, i, j);
-		element.gameObject.transform.SetParent(transform);
-		arr.Add(element);
+		// check tile is destructible
+		if (tile.isExplodable) tile.Explode();
 
-		return true;
+		// block fire stream at this point
+		return false;
 	}
 
 	//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
