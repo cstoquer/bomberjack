@@ -8,6 +8,8 @@ namespace Bomberman.Entities {
 		public int joystick;
 		public int speed;
 
+		public GameObject bombPrefab;
+
 		[HideInInspector] public int i;
 		[HideInInspector] public int j;
 
@@ -20,8 +22,8 @@ namespace Bomberman.Entities {
 		// Use this for initialization
 		void Start() {
 			animator = GetComponent<Animator>();
-			x = 32000;
-			y = 32000;
+			x = 26000; // TODO
+			y = 26000; // TODO
 		}
 
 		//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
@@ -91,6 +93,17 @@ namespace Bomberman.Entities {
 
 			// fetch sprite position
 			transform.position = new Vector3(x / 1000, -y / 1000 + 22, 0);
+
+			// bomb dropping
+			if (Input.GetButtonDown("joy" + joystick + "_A")) {
+				int i = x / 16000;
+				int j = y / 16000;
+				tile = stage.GetTile(i, j);
+				if (tile == null) {
+					stage.AddTile(i, j, 2); // FIXME
+					((Bomb)stage.GetTile(i, j)).Init(i, j, 5, 120); // FIXME
+				}
+			}
 		}
 	}
 }
