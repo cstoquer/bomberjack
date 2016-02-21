@@ -43,6 +43,8 @@ public class Stage : MonoBehaviour {
 				instance.transform.SetParent(transform);
 			}
 		}
+
+		Camera.main.GetComponent<CameraMan>().InitPosition(this);
 	}
 
 	//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄

@@ -6,22 +6,22 @@ public class CameraMan : MonoBehaviour {
 
 	//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 	void Start() {
-		int width  = Screen.width;
+		// HACK: force rendering to be 60 FPS
+		Application.targetFrameRate = 60;
+		Resolution res;
+		res = Screen.currentResolution;
+		if (res.refreshRate == 60)  QualitySettings.vSyncCount = 1;
+		if (res.refreshRate == 120) QualitySettings.vSyncCount = 2;
+		//Debug.Log("res.refreshRate =" + (int)(res.refreshRate));
+		//Debug.Log("vSyncCount = " + (int)(QualitySettings.vSyncCount));
+	}
+
+	//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+	public void InitPosition(Stage stage) {
+		int width = Screen.width;
 		//int height = Screen.height;
-
-		int PIXEL_SIZE = width / (15 * TILE_SIZE);
-
+		int PIXEL_SIZE = width / (stage.width * TILE_SIZE);
 		GetComponent<Camera>().orthographicSize = (float)(Screen.height) / (float)(2 * PIXEL_SIZE);
-
-		{
-			// HACK: force rendering to be 60 FPS
-			Application.targetFrameRate = 60;
-			Resolution res;
-			res = Screen.currentResolution;
-			if (res.refreshRate == 60)  QualitySettings.vSyncCount = 1;
-			if (res.refreshRate == 120) QualitySettings.vSyncCount = 2;
-			//Debug.Log("res.refreshRate =" + (int)(res.refreshRate));
-			//Debug.Log("vSyncCount = " + (int)(QualitySettings.vSyncCount));
-		}
+		transform.position = new Vector3(stage.width * TILE_SIZE / 2, -stage.height * TILE_SIZE / 2, -10);
 	}
 }
