@@ -4,8 +4,8 @@ using Pixelbox;
 
 namespace Bomberman.Tiles {
 	public class Bomb : Destructible {
-		[HideInInspector] public int flameSize;
-		[HideInInspector] public int timer;
+		private int flameSize;
+		private int timer;
 
 		public GameObject explosionPrefab;
 
@@ -15,7 +15,7 @@ namespace Bomberman.Tiles {
 		public override void Init(MapItem item, Stage stage) {
 			base.Init(item, stage);
 			flameSize = 4;
-			timer = 60 + Random.Range(0, 120); // TODO
+			timer = 120 + Random.Range(0, 120);
 		}
 
 		//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
@@ -32,18 +32,23 @@ namespace Bomberman.Tiles {
 
 		//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 		void Update() {
-			timer--;
-			// TODO animation
+			if (isExploding) return;
+
+			timer -= 1;
+
 			if (isMoving) return;
 			if (timer < 0) Explode();
 		}
 
 		//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 		protected override IEnumerator ExplosionCoroutine() {
+
 			// wait for exactly 6 frames before explosion
 			for (int c = 0; c < 6; c++) {
 				yield return null;
 			}
+
+			GetComponent<Animator>().Stop();
 
 			GameObject instance = (GameObject)Instantiate(explosionPrefab, transform.position, Quaternion.identity);
 			instance.GetComponent<Explosion>().Init(i, j, flameSize);
