@@ -3,7 +3,10 @@ using System.Collections;
 using Pixelbox;
 
 public class Stage : MonoBehaviour {
-	public Sprite[] spritesheet;
+
+	private const int TILE_SIZE = 16;
+
+	public GameObject[] spritesheet;
 
 	[HideInInspector] public int width;
 	[HideInInspector] public int height;
@@ -27,14 +30,16 @@ public class Stage : MonoBehaviour {
 		grid   = new int[width, height];
 		tiles  = new Tile[width, height];
 
-		for (int x = 0; x < width; x++) {
-			for (int y = 0; y < height; y++) {
-				MapItem item = map.Get(x, y);
+		for (int i = 0; i < width; i++) {
+			for (int j = 0; j < height; j++) {
+				MapItem item = map.Get(i, j);
 				if (item == null) continue;
 
-				Tile tile = new Tile(spritesheet[item.sprite], x, y);
-				tiles[x, y] = tile;
-				tile.gameObject.transform.SetParent(transform);
+				//Tile tile = new Tile(spritesheet[item.sprite], i, j);
+				GameObject instance = (GameObject)Instantiate(spritesheet[item.sprite], new Vector3(i * TILE_SIZE, -j * TILE_SIZE, 0f), Quaternion.identity);
+				tiles[i, j] = instance.GetComponent<Tile>();
+				tiles[i, j].Init(i, j);
+				instance.transform.SetParent(transform);
 			}
 		}
 	}
