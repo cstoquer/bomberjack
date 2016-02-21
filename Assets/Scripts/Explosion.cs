@@ -127,5 +127,6 @@ public class Explosion : MonoBehaviour {
 			elements[i].Remove();
 		}
 		gameObject.SetActive(false);
+		Destroy(gameObject); // TODO keep object in a pool for reuse
 	}
 }

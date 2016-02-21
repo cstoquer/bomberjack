@@ -4,6 +4,8 @@ using Pixelbox;
 
 namespace Bomberman.Tiles {
 	public class Bomb : Destructible {
+		private const int DELAY = 6; // delay between bomb trigger and explosion
+
 		private int flameSize;
 		private int timer;
 
@@ -43,8 +45,8 @@ namespace Bomberman.Tiles {
 		//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 		protected override IEnumerator ExplosionCoroutine() {
 
-			// wait for exactly 6 frames before explosion
-			for (int c = 0; c < 6; c++) {
+			// wait for exactly DELAY frames before explosion
+			for (int c = 0; c < DELAY; c++) {
 				yield return null;
 			}
 
