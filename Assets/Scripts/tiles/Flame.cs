@@ -4,7 +4,6 @@ using System.Collections;
 namespace Bomberman.Tiles {
 	public class Flame : Tile {
 		private Sprite[] animSprites;
-		new private SpriteRenderer spriteRenderer;
 
 		public bool overriden = false; 
 
