@@ -2,32 +2,31 @@
 using System.Collections;
 
 namespace Bomberman.Tiles {
-	public class Destructible : Tile {
+	public class Flame : Tile {
+		private Sprite[] animSprites;
+		new private SpriteRenderer spriteRenderer;
 
-		public Sprite[] destructAnim;
+		public bool overriden = false; 
 
-		protected bool isExploding = false;
-
-		//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-		public override void Explode() {
-			if (isExploding) return;
-			isExploding = true;
-			StartCoroutine(ExplosionCoroutine());
+		public int animFrame {
+			get { return 0; }
+			set { spriteRenderer.sprite = animSprites[value]; }
 		}
 
 		//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-		protected virtual IEnumerator ExplosionCoroutine() {
-			for (int f = 0; f < destructAnim.Length; f++) {
-				spriteRenderer.sprite = destructAnim[f];
-				for (int c = 0; c < 5; c++) {
-					// wait for exactly one frame
-					yield return null;
-				}
-			}
+		public void Init(Sprite[] animSprites, int i, int j) {
+			this.animSprites = animSprites;
+			this.i = i;
+			this.j = j;
+			spriteRenderer = GetComponent<SpriteRenderer>();
+			spriteRenderer.sprite = animSprites[0];
+			spriteRenderer.sortingOrder = j;
+			gameObject.transform.position = new Vector3(i * 16, -j * 16, 0f);
+		}
 
-			// TODO item spawning
-
-			stage.SetTile(i, j);
+		//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+		public void Remove() {
+			if(!overriden) Stage.instance.SetTile(i, j);
 			Destroy(gameObject);
 		}
 	}

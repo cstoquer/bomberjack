@@ -11,8 +11,6 @@ namespace Bomberman.Tiles {
 
 		public GameObject explosionPrefab;
 
-		protected bool isMoving = false;
-
 		//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 		public override void Init(MapItem item, Stage stage) {
 			base.Init(item, stage);
@@ -35,10 +33,7 @@ namespace Bomberman.Tiles {
 		//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 		void Update() {
 			if (isExploding) return;
-
 			timer -= 1;
-
-			if (isMoving) return;
 			if (timer < 0) Explode();
 		}
 
@@ -46,24 +41,13 @@ namespace Bomberman.Tiles {
 		protected override IEnumerator ExplosionCoroutine() {
 
 			// wait for exactly DELAY frames before explosion
-			for (int c = 0; c < DELAY; c++) {
-				yield return null;
-			}
+			for (int c = 0; c < DELAY; c++) yield return null;
 
 			GetComponent<Animator>().Stop();
+			stage.SetTile(i, j);
 
 			GameObject instance = (GameObject)Instantiate(explosionPrefab, transform.position, Quaternion.identity);
 			instance.GetComponent<Explosion>().Init(i, j, flameSize);
-
-			for (int f = 0; f < destructAnim.Length; f++) {
-				spriteRenderer.sprite = destructAnim[f];
-				for (int c = 0; c < 5; c++) {
-					// wait for exactly one frame
-					yield return null;
-				}
-			}
-
-			stage.RemoveTile(i, j);
 			Destroy(gameObject);
 		}
 	}

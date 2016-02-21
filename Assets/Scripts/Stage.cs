@@ -48,14 +48,14 @@ public class Stage : MonoBehaviour {
 	}
 
 	//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-	public Tile GetTile(int i, int j) {
-		if (i < 0 || j < 0 || i >= width || j >= height) return null;
-		return tiles[i, j];
+	public void SetTile(int i, int j, Tile tile = null) {
+		if (i < 0 || j < 0 || i >= width || j >= height) return;
+		tiles[i, j] = tile;
 	}
 
 	//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-	public void RemoveTile(int i, int j) {
-		if (i < 0 || j < 0 || i >= width || j >= height) return;
-		tiles[i, j] = null;
+	public Tile GetTile(int i, int j) {
+		if (i < 0 || j < 0 || i >= width || j >= height) return null;
+		return tiles[i, j];
 	}
 }

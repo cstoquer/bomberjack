@@ -25,7 +25,7 @@ namespace Bomberman.Tiles {
 
 		//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 		public virtual void Explode() {
-			stage.RemoveTile(i, j);
+			stage.SetTile(i, j);
 			Destroy(gameObject);
 		}
 	}
