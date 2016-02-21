@@ -8,8 +8,6 @@ namespace Bomberman.Entities {
 		public int joystick;
 		public int speed;
 
-		public GameObject bombPrefab;
-
 		[HideInInspector] public int i;
 		[HideInInspector] public int j;
 
