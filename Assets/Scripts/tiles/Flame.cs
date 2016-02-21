@@ -5,7 +5,7 @@ namespace Bomberman.Tiles {
 	public class Flame : Tile {
 		private Sprite[] animSprites;
 
-		public bool overriden = false; 
+		[HideInInspector] public bool overriden = false; 
 
 		public int animFrame {
 			get { return 0; }

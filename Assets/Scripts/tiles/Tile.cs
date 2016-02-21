@@ -9,6 +9,7 @@ namespace Bomberman.Tiles {
 		[HideInInspector] public int j;
 		
 		public bool isExplodable;
+		public bool isWalkable;
 
 		protected SpriteRenderer spriteRenderer;
 		protected Stage stage;

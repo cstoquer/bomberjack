@@ -7,7 +7,7 @@ public class Stage : MonoBehaviour {
 
 	private const int TILE_SIZE = 16;
 
-	public GameObject[] spritesheet;
+	public GameObject[] tilesheet;
 
 	[HideInInspector] public int width;
 	[HideInInspector] public int height;
@@ -18,12 +18,11 @@ public class Stage : MonoBehaviour {
 
 	//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 	void Start() {
-		CreateStage("classic");
-		instance = this;
+		Init("classic");
 	}
 
 	//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-	public void CreateStage(string stage) {
+	public void Init(string stage) {
 		Map map = Maps.GetMap(stage);
 
 		width  = map.width;
@@ -35,15 +34,14 @@ public class Stage : MonoBehaviour {
 			for (int j = 0; j < height; j++) {
 				MapItem item = map.Get(i, j);
 				if (item == null) continue;
-
-				//Tile tile = new Tile(spritesheet[item.sprite], i, j);
-				GameObject instance = (GameObject)Instantiate(spritesheet[item.sprite], new Vector3(i * TILE_SIZE, -j * TILE_SIZE, 0f), Quaternion.identity);
-				tiles[i, j] = instance.GetComponent<Tile>();
+				GameObject tileObj = (GameObject)Instantiate(tilesheet[item.sprite], new Vector3(i * TILE_SIZE, -j * TILE_SIZE, 0f), Quaternion.identity);
+				tiles[i, j] = tileObj.GetComponent<Tile>();
 				tiles[i, j].Init(item, this);
-				instance.transform.SetParent(transform);
+				tileObj.transform.SetParent(transform);
 			}
 		}
 
+		instance = this;
 		Camera.main.GetComponent<CameraMan>().InitPosition(this);
 	}
 
