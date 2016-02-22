@@ -19,8 +19,8 @@ namespace Bomberman.Entities {
 		//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 		public void Init(int joystick, Vector2 spawnpoint) {
 			this.joystick = joystick;
-			x = 8000 + 16000 * (int)spawnpoint.x;
-			y = 8000 + 16000 * (int)spawnpoint.y;
+			x = 1000 * (8 + 16 * (int)spawnpoint.x);
+			y = 1000 * (8 + 16 * (int)spawnpoint.y);
 		}
 
 		//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
