@@ -5,23 +5,29 @@ using Bomberman.Tiles;
 namespace Bomberman.Entities {
 	public class Player : MonoBehaviour {
 
-		public int joystick;
 		public int speed;
 
 		[HideInInspector] public int i;
 		[HideInInspector] public int j;
+		[HideInInspector] private int x;
+		[HideInInspector] private int y;
 
-		private int x;
-		private int y;
-
+		private int joystick;
 		private Animator animator;
+		private Stage stage;
+
+		//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+		public void Init(int joystick, Vector2 spawnpoint) {
+			this.joystick = joystick;
+			x = 8000 + 16000 * (int)spawnpoint.x;
+			y = 8000 + 16000 * (int)spawnpoint.y;
+		}
 
 		//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 		// Use this for initialization
 		void Start() {
 			animator = GetComponent<Animator>();
-			x = 26000; // TODO
-			y = 26000; // TODO
+			stage = Stage.instance;
 		}
 
 		//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
@@ -51,7 +57,6 @@ namespace Bomberman.Entities {
 			int tx = x + sx;
 			int ty = y + sy;
 
-			Stage stage = Stage.instance;
 			Tile tile;
 
 			if (sx > 0) {
