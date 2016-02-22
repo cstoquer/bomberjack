@@ -5,7 +5,7 @@ using Bomberman.Entities;
 namespace Bomberman {
 	public class Game : MonoBehaviour {
 		public GameObject stagePrefab;
-		public GameObject playerPrefab;
+		public GameObject[] playerPrefabs;
 
 		public Vector2[] spawnpoints;
 
@@ -14,7 +14,7 @@ namespace Bomberman {
 			stage.GetComponent<Stage>().Init("classic");
 
 			for (int i = 0; i < 4; i++) {
-				GameObject player = Instantiate(playerPrefab);
+				GameObject player = Instantiate(playerPrefabs[i]);
 				player.GetComponent<Player>().Init(i + 1, spawnpoints[i]);
 			}
 		}
