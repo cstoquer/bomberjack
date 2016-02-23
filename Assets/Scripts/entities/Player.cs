@@ -70,15 +70,18 @@ namespace Bomberman.Entities {
 			Tile tileA;
 			Tile tileB;
 
+			// TODO avoid bomberman to get stuck on corners when user go in diagonal
+
 			if (sx > 0) {
 				int ti = (tx + FACE) / TILE;
 				tileA = stage.GetTile(ti, (ty - SIDE) / TILE);
 				tileB = stage.GetTile(ti, (ty + SIDE) / TILE);
 				if (((tileA != null && !tileA.isWalkable) || (tileB != null && !tileB.isWalkable)) && (x + FACE) / TILE < ti) {
-					// if the tile directly in front is walkable then make bomberman slide in front of the entrance
+					// if there is a walkable tile then make bomberman slide in front of the entrance
 					tile = stage.GetTile(ti, ty / TILE);
 					if (tile == null || tile.isWalkable) {
 						int direction = ty % TILE < 8000 ? 1 : -1;
+						// TODO max speed so to keep player directly in front of entrance
 						tty = y + speed * direction;
 					}
 					// snap player to the border of the tile
@@ -89,7 +92,7 @@ namespace Bomberman.Entities {
 				tileA = stage.GetTile(ti, (ty - SIDE) / TILE);
 				tileB = stage.GetTile(ti, (ty + SIDE) / TILE);
 				if (((tileA != null && !tileA.isWalkable) || (tileB != null && !tileB.isWalkable)) && (x - FACE) / TILE > ti) {
-					// if the tile directly in front is walkable then make bomberman slide in front of the entrance
+					// if there is a walkable tile then make bomberman slide in front of the entrance
 					tile = stage.GetTile(ti, ty / TILE);
 					if (tile == null || tile.isWalkable) {
 						int direction = ty % TILE < 8000 ? 1 : -1;
@@ -102,10 +105,10 @@ namespace Bomberman.Entities {
 
 			if (sy > 0) {
 				int tj = (ty + FACE) / TILE;
-				tileA = stage.GetTile((tx - SIDE) / TILE, tj);
-				tileB = stage.GetTile((tx + SIDE) / TILE, tj);
+				tileA = stage.GetTile((ttx - SIDE) / TILE, tj);
+				tileB = stage.GetTile((ttx + SIDE) / TILE, tj);
 				if (((tileA != null && !tileA.isWalkable) || (tileB != null && !tileB.isWalkable)) && (y + FACE) / TILE < tj) {
-					// if the tile directly in front is walkable then make bomberman slide in front of the entrance
+					// if there is a walkable tile then make bomberman slide in front of the entrance
 					tile = stage.GetTile(tx / TILE, tj);
 					if (tile == null || tile.isWalkable) {
 						int direction = tx % TILE < 8000 ? 1 : -1;
@@ -116,10 +119,10 @@ namespace Bomberman.Entities {
 				}
 			} else if (sy < 0) {
 				int tj = (ty - FACE) / TILE;
-				tileA = stage.GetTile((tx - SIDE) / TILE, tj);
-				tileB = stage.GetTile((tx + SIDE) / TILE, tj);
+				tileA = stage.GetTile((ttx - SIDE) / TILE, tj);
+				tileB = stage.GetTile((ttx + SIDE) / TILE, tj);
 				if (((tileA != null && !tileA.isWalkable) || (tileB != null && !tileB.isWalkable)) && (y - FACE) / TILE > tj) {
-					// if the tile directly in front is walkable then make bomberman slide in front of the entrance
+					// if there is a walkable tile then make bomberman slide in front of the entrance
 					tile = stage.GetTile(tx / TILE, tj);
 					if (tile == null || tile.isWalkable) {
 						int direction = tx % TILE < 8000 ? 1 : -1;
