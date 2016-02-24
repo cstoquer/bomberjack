@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class CameraMan : MonoBehaviour {
-	private const int TILE_SIZE = 16;
+	private const int TILE = 16;
 
 	//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 	void Start() {
@@ -21,11 +21,11 @@ public class CameraMan : MonoBehaviour {
 		int width  = Screen.width;
 		int height = Screen.height;
 
-		int pixelWidth  = width  / (stage.width  * TILE_SIZE);
-		int pixelHeight = height / (stage.height * TILE_SIZE); // TODO add HUD size
+		int pixelWidth  = width  / (stage.width  * TILE);
+		int pixelHeight = height / (stage.height * TILE); // TODO add HUD size
 		int pixelSize = Mathf.Min(pixelWidth, pixelHeight);
 
 		GetComponent<Camera>().orthographicSize = (float)(Screen.height) / (float)(2 * pixelSize);
-		transform.position = new Vector3(stage.width * TILE_SIZE / 2, -stage.height * TILE_SIZE / 2, -10); // TODO HUD
+		transform.position = new Vector3(stage.width * TILE / 2, TILE - stage.height * TILE / 2, -10); // TODO HUD
 	}
 }

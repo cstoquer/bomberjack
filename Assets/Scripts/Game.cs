@@ -7,6 +7,7 @@ namespace Bomberman {
 		public GameObject stagePrefab;
 		public GameObject[] playerPrefabs;
 
+		//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 		void Start() {
 			GameObject instance = Instantiate(stagePrefab);
 			Stage stage = instance.GetComponent<Stage>();
@@ -23,6 +24,11 @@ namespace Bomberman {
 				GameObject player = Instantiate(playerPrefabs[i]);
 				player.GetComponent<Player>().Init(i + 1, spawnpoints[i]);
 			}
+		}
+
+		//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+		void Update() {
+			if (Input.GetKey("escape")) Application.Quit();
 		}
 	}
 }
