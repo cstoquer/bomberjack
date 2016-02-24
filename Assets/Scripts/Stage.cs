@@ -31,6 +31,7 @@ public class Stage : MonoBehaviour {
 			for (int j = 0; j < height; j++) {
 				MapItem item = map.Get(i, j);
 				if (item == null) {
+					// FIXME MonoBehaviour cannot be created with 'new' keyword. should use AddComponent()
 					tiles[i, j] = new Tile(i, j, true); // empty tile
 					continue;
 				}

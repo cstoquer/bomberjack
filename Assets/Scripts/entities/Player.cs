@@ -6,11 +6,11 @@ namespace Bomberman.Entities {
 	public class Player : MonoBehaviour {
 
 		// dimensions and speed are stored in millipixels
-		private const int PIXEL = 1000;
-		private const int WIDTH = 8000;
-		private const int TILE = 16000;
-		private const int FACE = 7600;
-		private const int SIDE = 7400;
+		private const int PIXEL =  1000;
+		private const int WIDTH =  8000;
+		private const int TILE  = 16000;
+		private const int FACE  =  7800;
+		private const int SIDE  =  7800;
 
 		public int speed;
 
