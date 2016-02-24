@@ -5,6 +5,7 @@ using Bomberman.Tiles;
 namespace Bomberman.Entities {
 	public class Player : MonoBehaviour {
 
+		// dimensions and speed are stored in millipixels
 		private const int PIXEL = 1000;
 		private const int WIDTH = 8000;
 		private const int TILE = 16000;
@@ -13,12 +14,13 @@ namespace Bomberman.Entities {
 
 		public int speed;
 
-		[HideInInspector] public int i;
+		[HideInInspector] public int i; // position in tile
 		[HideInInspector] public int j;
-		[HideInInspector] private int x;
+		[HideInInspector] private int x; // position in pixels
 		[HideInInspector] private int y;
 
-		private int joystick;
+		private int joystick; // number of the joystick that control this bomberman
+
 		private Animator animator;
 		private Stage stage;
 
@@ -51,7 +53,7 @@ namespace Bomberman.Entities {
 			animator.SetBool("goU", goU);
 			animator.SetBool("goD", goD);
 
-			// movement
+			// speed on x and y axis
 			int sx = 0;
 			int sy = 0;
 
@@ -60,11 +62,13 @@ namespace Bomberman.Entities {
 			if (goU) sy -= speed;
 			if (goD) sy += speed;
 
+			// target position (in millipixels)
 			int tx = x + sx;
 			int ty = y + sy;
 
-			int ttx = tx;
-			int tty = ty;
+			// final position (in millipixels)
+			int fx = tx;
+			int fy = ty;
 
 			Tile tile;
 			Tile tileA;
@@ -72,82 +76,83 @@ namespace Bomberman.Entities {
 
 			// TODO avoid bomberman to get stuck on corners when user go in diagonal
 
+			//-----------------------------------------------
+			// horizontal movement
 			if (sx > 0) {
 				int ti = (tx + FACE) / TILE;
 				tileA = stage.GetTile(ti, (ty - SIDE) / TILE);
 				tileB = stage.GetTile(ti, (ty + SIDE) / TILE);
-				if (((tileA != null && !tileA.isWalkable) || (tileB != null && !tileB.isWalkable)) && (x + FACE) / TILE < ti) {
+				if ((!tileA.isWalkable || !tileB.isWalkable) && (x + FACE) / TILE < ti) {
 					// if there is a walkable tile then make bomberman slide in front of the entrance
 					tile = stage.GetTile(ti, ty / TILE);
-					if (tile == null || tile.isWalkable) {
+					if (tile.isWalkable) {
 						int direction = ty % TILE < 8000 ? 1 : -1;
 						// TODO max speed so to keep player directly in front of entrance
-						tty = y + speed * direction;
+						fy = y + speed * direction;
 					}
 					// snap player to the border of the tile
-					ttx = ti * TILE - WIDTH;
+					fx = ti * TILE - WIDTH;
 				}
 			} else if (sx < 0) {
 				int ti = (tx - FACE) / TILE;
 				tileA = stage.GetTile(ti, (ty - SIDE) / TILE);
 				tileB = stage.GetTile(ti, (ty + SIDE) / TILE);
-				if (((tileA != null && !tileA.isWalkable) || (tileB != null && !tileB.isWalkable)) && (x - FACE) / TILE > ti) {
+				if ((!tileA.isWalkable || !tileB.isWalkable) && (x - FACE) / TILE > ti) {
 					// if there is a walkable tile then make bomberman slide in front of the entrance
 					tile = stage.GetTile(ti, ty / TILE);
-					if (tile == null || tile.isWalkable) {
+					if (tile.isWalkable) {
 						int direction = ty % TILE < 8000 ? 1 : -1;
-						tty = y + speed * direction;
+						fy = y + speed * direction;
 					}
 					// snap player to the border of the tile
-					ttx = (ti + 1) * TILE + FACE;
+					fx = (ti + 1) * TILE + FACE;
 				}
 			}
 
+			//-----------------------------------------------
+			// vertical movement
 			if (sy > 0) {
 				int tj = (ty + FACE) / TILE;
-				tileA = stage.GetTile((ttx - SIDE) / TILE, tj);
-				tileB = stage.GetTile((ttx + SIDE) / TILE, tj);
-				if (((tileA != null && !tileA.isWalkable) || (tileB != null && !tileB.isWalkable)) && (y + FACE) / TILE < tj) {
+				tileA = stage.GetTile((fx - SIDE) / TILE, tj);
+				tileB = stage.GetTile((fx + SIDE) / TILE, tj);
+				if ((!tileA.isWalkable || !tileB.isWalkable) && (y + FACE) / TILE < tj) {
 					// if there is a walkable tile then make bomberman slide in front of the entrance
 					tile = stage.GetTile(tx / TILE, tj);
-					if (tile == null || tile.isWalkable) {
+					if (tile.isWalkable) {
 						int direction = tx % TILE < 8000 ? 1 : -1;
-						ttx = x + speed * direction;
+						fx = x + speed * direction;
 					}
 					// snap player to the border of the tile
-					tty = tj * TILE - WIDTH;
+					fy = tj * TILE - WIDTH;
 				}
 			} else if (sy < 0) {
 				int tj = (ty - FACE) / TILE;
-				tileA = stage.GetTile((ttx - SIDE) / TILE, tj);
-				tileB = stage.GetTile((ttx + SIDE) / TILE, tj);
-				if (((tileA != null && !tileA.isWalkable) || (tileB != null && !tileB.isWalkable)) && (y - FACE) / TILE > tj) {
+				tileA = stage.GetTile((fx - SIDE) / TILE, tj);
+				tileB = stage.GetTile((fx + SIDE) / TILE, tj);
+				if ((!tileA.isWalkable || !tileB.isWalkable) && (y - FACE) / TILE > tj) {
 					// if there is a walkable tile then make bomberman slide in front of the entrance
 					tile = stage.GetTile(tx / TILE, tj);
-					if (tile == null || tile.isWalkable) {
+					if (tile.isWalkable) {
 						int direction = tx % TILE < 8000 ? 1 : -1;
-						ttx = x + speed * direction;
+						fx = x + speed * direction;
 					}
 					// snap player to the border of the tile
-					tty = (tj + 1) * TILE + FACE;
+					fy = (tj + 1) * TILE + FACE;
 				}
 			}
 
-			x = ttx;
-			y = tty;
-
-			// fetch sprite position
+			// fetch position
+			x = fx;
+			y = fy;
 			transform.position = new Vector3(x / PIXEL, -y / PIXEL + 22, 0);
 
-			// bomb dropping
+			i = x / TILE;
+			j = y / TILE;
+
+			// drop a bomb on stage
 			if (Input.GetButtonDown("joy" + joystick + "_A")) {
-				int i = x / TILE;
-				int j = y / TILE;
 				tile = stage.GetTile(i, j);
-				if (tile == null) {
-					stage.AddTile(i, j, 2); // FIXME
-					((Bomb)stage.GetTile(i, j)).Init(i, j, 5, 120); // FIXME
-				}
+				if (tile.isEmpty) ((Bomb)stage.AddTile(i, j, 2)).Init(i, j, 5, 120); // FIXME
 			}
 		}
 	}
