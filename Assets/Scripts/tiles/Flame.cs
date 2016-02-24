@@ -5,7 +5,9 @@ namespace Bomberman.Tiles {
 	public class Flame : Tile {
 		private Sprite[] animSprites;
 
-		[HideInInspector] public bool overriden = false; 
+		// when another flame is put on top of this tile, this boolean is set to keep the last
+		// added flame and this tile don't attempt to remove itself from stage
+		[HideInInspector] public bool overriden = false;
 
 		public int animFrame {
 			get { return 0; }

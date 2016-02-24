@@ -18,10 +18,14 @@ public class CameraMan : MonoBehaviour {
 
 	//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 	public void InitPosition(Stage stage) {
-		int width = Screen.width;
-		//int height = Screen.height;
-		int PIXEL_SIZE = width / (stage.width * TILE_SIZE);
-		GetComponent<Camera>().orthographicSize = (float)(Screen.height) / (float)(2 * PIXEL_SIZE);
-		transform.position = new Vector3(stage.width * TILE_SIZE / 2, -stage.height * TILE_SIZE / 2, -10);
+		int width  = Screen.width;
+		int height = Screen.height;
+
+		int pixelWidth  = width  / (stage.width  * TILE_SIZE);
+		int pixelHeight = height / (stage.height * TILE_SIZE); // TODO add HUD size
+		int pixelSize = Mathf.Min(pixelWidth, pixelHeight);
+
+		GetComponent<Camera>().orthographicSize = (float)(Screen.height) / (float)(2 * pixelSize);
+		transform.position = new Vector3(stage.width * TILE_SIZE / 2, -stage.height * TILE_SIZE / 2, -10); // TODO HUD
 	}
 }
