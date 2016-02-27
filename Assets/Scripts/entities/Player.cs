@@ -14,6 +14,7 @@ namespace Bomberman.Entities {
 
 		public int speed;
 
+		[HideInInspector] public int id;
 		[HideInInspector] public int i; // position in tile
 		[HideInInspector] public int j;
 		[HideInInspector] private int x; // position in pixels
@@ -27,9 +28,11 @@ namespace Bomberman.Entities {
 		private bool walking;
 
 		//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-		public void Init(int joystick, Vector2 spawnpoint, SpriteAnimator animator) {
-			this.animator = animator;
-			this.joystick = joystick;
+		public void Init(int id, Vector2 spawnpoint, string variation, Stage stage) {
+			this.id = id;
+			this.stage = stage;
+			joystick = id + 1;
+			animator = new SpriteAnimator("men", variation, GetComponent<SpriteRenderer>());
 			x = WIDTH + TILE * (int)spawnpoint.x;
 			y = WIDTH + TILE * (int)spawnpoint.y;
 		}
@@ -37,7 +40,6 @@ namespace Bomberman.Entities {
 		//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 		// Use this for initialization
 		void Start() {
-			stage = Stage.instance;
 			facing = "Down";
 			walking = false;
 			animator.Start("stand" + facing);

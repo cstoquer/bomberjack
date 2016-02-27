@@ -9,6 +9,8 @@ namespace Bomberman {
 
 		private string[] playerVariations = { "white", "black", "blue", "red" };
 
+		private Player[] players = new Player[4];
+
 		//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 		void Start() {
 			GameObject instance = Instantiate(stagePrefab);
@@ -23,9 +25,9 @@ namespace Bomberman {
 			spawnpoints[3] = new Vector2(stage.width - 2, stage.height - 2);
 
 			for (int i = 0; i < 4; i++) {
-				GameObject player = Instantiate(playerPrefab);
-				SpriteAnimator animator = new SpriteAnimator("men", playerVariations[i], player.GetComponent<SpriteRenderer>());
-				player.GetComponent<Player>().Init(i + 1, spawnpoints[i], animator);
+				Player player = Instantiate(playerPrefab).GetComponent<Player>();
+				player.Init(i, spawnpoints[i], playerVariations[i], stage);
+				players[i] = player;
 			}
 		}
 
