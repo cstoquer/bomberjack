@@ -8,6 +8,7 @@ public class Stage : MonoBehaviour {
 	private const int TILE_SIZE = 16;
 
 	public GameObject[] tilesheet;
+	public GameObject emptyTile;
 
 	[HideInInspector] public int width;
 	[HideInInspector] public int height;
@@ -31,8 +32,7 @@ public class Stage : MonoBehaviour {
 			for (int j = 0; j < height; j++) {
 				MapItem item = map.Get(i, j);
 				if (item == null) {
-					// FIXME MonoBehaviour cannot be created with 'new' keyword. should use AddComponent()
-					tiles[i, j] = new Tile(i, j, true); // empty tile
+					tiles[i, j] = Instantiate(emptyTile).GetComponent<Tile>();
 					continue;
 				}
 				GameObject tileObj = (GameObject)Instantiate(tilesheet[item.sprite], new Vector3(i * TILE_SIZE, -j * TILE_SIZE, 0f), Quaternion.identity);
