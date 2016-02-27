@@ -1,0 +1,13 @@
+{
+	"animations": [
+		{ "id": "standDown",  "speed": 1,  "loop": false, "sprites": ["down2"] },
+		{ "id": "standUp",    "speed": 1,  "loop": false, "sprites": ["up2"] },
+		{ "id": "standLeft",  "speed": 1,  "loop": false, "sprites": ["left2"] },
+		{ "id": "standRight", "speed": 1,  "loop": false, "sprites": ["right2"] },
+		{ "id": "walkDown",   "speed": 8,  "loop": true,  "sprites": ["down1", "down2", "down3", "down2"] },
+		{ "id": "walkUp",     "speed": 8,  "loop": true,  "sprites": ["up1", "up2", "up3", "up2"] },
+		{ "id": "walkRight",  "speed": 8,  "loop": true,  "sprites": ["right1", "right2", "right3", "right2"] },
+		{ "id": "walkLeft",   "speed": 8,  "loop": true,  "sprites": ["left1", "left2", "left3", "left2"] },
+		{ "id": "dead",       "speed": 12, "loop": false, "sprites": ["dead1", "dead2", "dead3", "dead4", ""] }
+	]
+}

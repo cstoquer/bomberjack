@@ -15,7 +15,7 @@ namespace Pixelbox {
 		//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 		private static void LoadMaps() {
 			if (loaded) return;
-			TextAsset textAsset = Resources.Load("maps") as TextAsset;
+			TextAsset textAsset = Resources.Load("Data/maps") as TextAsset;
 			string json = "{\"data\":" + textAsset.text + "}";
 			Maps mapData = JsonUtility.FromJson<Maps>(json);
 

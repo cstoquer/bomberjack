@@ -21,22 +21,14 @@ namespace Bomberman.Entities {
 
 		private int joystick; // number of the joystick that control this bomberman
 
-		private Animator animator;
 		private Stage stage;
-
-		// animations
-		public Sprite[] animDie;
-		public Sprite[] animWalkUp;
-		public Sprite[] animWalkDown;
-		public Sprite[] animWalkLeft;
-		public Sprite[] animWalkRight;
-		public Sprite[] animStandUp;
-		public Sprite[] animStandDown;
-		public Sprite[] animStandLeft;
-		public Sprite[] animStandRight;
+		private SpriteAnimator animator;
+		private string facing;
+		private bool walking;
 
 		//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-		public void Init(int joystick, Vector2 spawnpoint) {
+		public void Init(int joystick, Vector2 spawnpoint, SpriteAnimator animator) {
+			this.animator = animator;
 			this.joystick = joystick;
 			x = WIDTH + TILE * (int)spawnpoint.x;
 			y = WIDTH + TILE * (int)spawnpoint.y;
@@ -45,8 +37,10 @@ namespace Bomberman.Entities {
 		//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 		// Use this for initialization
 		void Start() {
-			animator = GetComponent<Animator>();
 			stage = Stage.instance;
+			facing = "Down";
+			walking = false;
+			animator.Start("stand" + facing);
 		}
 
 		//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
@@ -58,20 +52,30 @@ namespace Bomberman.Entities {
 			bool goU = Input.GetAxisRaw("joy" + joystick + "_V") > 0;
 			bool goD = Input.GetAxisRaw("joy" + joystick + "_V") < 0;
 
-			// update animation
-			animator.SetBool("goL", goL);
-			animator.SetBool("goR", goR);
-			animator.SetBool("goU", goU);
-			animator.SetBool("goD", goD);
-
 			// speed on x and y axis
 			int sx = 0;
 			int sy = 0;
 
-			if (goL) sx -= speed;
-			if (goR) sx += speed; 
-			if (goU) sy -= speed;
-			if (goD) sy += speed;
+			string previousFacing = facing;
+
+			if (goL) { sx -= speed; facing = "Left";  }
+			if (goR) { sx += speed; facing = "Right"; }
+			if (goU) { sy -= speed; facing = "Up";    }
+			if (goD) { sy += speed; facing = "Down";  }
+
+			// update animation
+			if (sx == 0 && sy == 0) {
+				if (walking) {
+					animator.Start("stand" + facing);
+					walking = false;
+				}
+			} else if (!walking) {
+				animator.Start("walk" + facing);
+				walking = true;
+			} else if (facing != previousFacing) {
+				animator.Start(( walking ? "walk" : "stand") + facing);
+			}
+			animator.Play();
 
 			// target position (in millipixels)
 			int tx = x + sx;
