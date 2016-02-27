@@ -24,6 +24,17 @@ namespace Bomberman.Entities {
 		private Animator animator;
 		private Stage stage;
 
+		// animations
+		public Sprite[] animDie;
+		public Sprite[] animWalkUp;
+		public Sprite[] animWalkDown;
+		public Sprite[] animWalkLeft;
+		public Sprite[] animWalkRight;
+		public Sprite[] animStandUp;
+		public Sprite[] animStandDown;
+		public Sprite[] animStandLeft;
+		public Sprite[] animStandRight;
+
 		//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 		public void Init(int joystick, Vector2 spawnpoint) {
 			this.joystick = joystick;
