@@ -23,6 +23,8 @@ public class Stage : MonoBehaviour {
 	public void Init(string stage) {
 		Map map = Maps.GetMap(stage);
 
+		map = RandomiseMap(map);
+
 		width  = map.width;
 		height = map.height;
 		grid   = new int[width, height];
@@ -44,6 +46,37 @@ public class Stage : MonoBehaviour {
 
 		instance = this;
 		Camera.main.GetComponent<CameraMan>().InitPosition(this);
+	}
+
+	//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+	private Map RandomiseMap(Map original, float empty = 0.2f) {
+
+		Map map = original.Clone();
+
+		// find all bricks tiles (sprite 1) in the map
+		MapItem[] bricks = map.Find(1);
+
+		int EMPTY = (int)((float)bricks.Length * empty);
+
+		// shuffle bricks array
+		for (int i = bricks.Length - 1; i >= 0; i--) {
+			int r = (int)Random.Range(0, i);
+			MapItem temp = bricks[r];
+			bricks[r] = bricks[i];
+			bricks[i] = temp;
+		}
+
+		// first n bricks become empty tiles
+		for (int i = 0; i < EMPTY; i++) {
+			MapItem item = bricks[i];
+			map.items[item.x, item.y] = null;
+		}
+
+		// next m bricks get powerups inside
+
+		// TODO
+
+		return map;
 	}
 
 	//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄

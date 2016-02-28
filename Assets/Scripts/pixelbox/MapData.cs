@@ -66,8 +66,8 @@ namespace Pixelbox {
 					bool flipH = ((d >> 8) & 1) == 1;
 					bool flipV = ((d >> 9) & 1) == 1;
 					bool flipR = ((d >> 10) & 1) == 1;
-					bool flagA = ((d >> 11) & 1) == 1;
-					bool flagB = ((d >> 12) & 1) == 1;
+					int flagA = ((d >> 11) & 1);
+					int flagB = ((d >> 12) & 1);
 					map.Set(x, y, sprite, flipH, flipV, flipR, flagA, flagB);
 				}
 			}

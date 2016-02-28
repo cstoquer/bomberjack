@@ -14,9 +14,12 @@ namespace Bomberman.Entities {
 
 		public int speed;
 
-		[HideInInspector] public int id;
+		[HideInInspector] public int id; // bomberman number (0 - 3)
+		[HideInInspector] public bool alive;
+
 		[HideInInspector] public int i; // position in tile
 		[HideInInspector] public int j;
+
 		[HideInInspector] private int x; // position in pixels
 		[HideInInspector] private int y;
 
