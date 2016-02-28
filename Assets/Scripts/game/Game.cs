@@ -45,12 +45,17 @@ namespace Bomberman {
 
 		//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 		public void PlayerDeath(Player player) {
-			alive -= 1;
-			if (alive <= 1) {
-				// TODO
-				print("game over");
-				SceneManager.LoadScene("intro");
-			}
+			if (--alive <= 1) StartCoroutine(GameoverCoroutine());
+		}
+
+		//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+		protected IEnumerator GameoverCoroutine() {
+			// TODO set last player invincible
+
+			yield return new WaitForSeconds(4.0f);
+
+			// TODO result screen
+			SceneManager.LoadScene("intro");
 		}
 	}
 }
