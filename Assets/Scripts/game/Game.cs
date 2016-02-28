@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using Bomberman.Entities;
+using UnityEngine.SceneManagement;
 
 namespace Bomberman {
 	public class Game : MonoBehaviour {
@@ -48,6 +49,7 @@ namespace Bomberman {
 			if (alive <= 1) {
 				// TODO
 				print("game over");
+				SceneManager.LoadScene("intro");
 			}
 		}
 	}
