@@ -8,6 +8,6 @@
 		{ "id": "walkUp",     "speed": 8,  "loop": true,  "sprites": ["up1", "up2", "up3", "up2"] },
 		{ "id": "walkRight",  "speed": 8,  "loop": true,  "sprites": ["right1", "right2", "right3", "right2"] },
 		{ "id": "walkLeft",   "speed": 8,  "loop": true,  "sprites": ["left1", "left2", "left3", "left2"] },
-		{ "id": "dead",       "speed": 12, "loop": false, "sprites": ["dead1", "dead2", "dead3", "dead4", ""] }
+		{ "id": "death",      "speed": 6,  "loop": false, "sprites": ["dead1", "dead1", "dead1", "dead1", "dead2", "dead3", "dead4"] }
 	]
 }

@@ -43,6 +43,7 @@ namespace Bomberman.Entities {
 		//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 		// Use this for initialization
 		void Start() {
+			alive = true;
 			facing = "Down";
 			walking = false;
 			animator.Start("stand" + facing);
@@ -51,6 +52,8 @@ namespace Bomberman.Entities {
 		//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 		// Update is called once per frame
 		void Update() {
+			if (!alive) return;
+
 			// read joystick inputs
 			bool goR = Input.GetAxisRaw("joy" + joystick + "_H") > 0;
 			bool goL = Input.GetAxisRaw("joy" + joystick + "_H") < 0;
@@ -174,6 +177,26 @@ namespace Bomberman.Entities {
 				tile = stage.GetTile(i, j);
 				if (tile.isEmpty) ((Bomb)stage.AddTile(i, j, 2)).Init(i, j, 5, 120); // FIXME
 			}
+
+
+			if (stage.GetTile(i, j).GetType() == typeof(Flame)) StartCoroutine(DeathAnimCoroutine());
+		}
+
+		//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+		protected IEnumerator DeathAnimCoroutine() {
+			alive = false;
+			Game.instance.PlayerDeath(this);
+
+			animator.Start("death");
+			int duration = animator.GetDuration();
+
+			for (int c = 0; c < duration; c++) {
+				animator.Play();
+				yield return new WaitForEndOfFrame();
+			}
+
+			yield return new WaitForSeconds(0.7f);
+			GetComponent<SpriteRenderer>().sprite = null;
 		}
 	}
 }

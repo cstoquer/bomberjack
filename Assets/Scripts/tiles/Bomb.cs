@@ -4,12 +4,12 @@ using Pixelbox;
 
 namespace Bomberman.Tiles {
 	public class Bomb : Destructible {
-		private const int DELAY = 6; // delay between bomb trigger and explosion
+		public int DELAY; // delay between bomb trigger and explosion
+		public GameObject explosionPrefab;
 
 		private int flameSize;
 		private int timer;
 
-		public GameObject explosionPrefab;
 
 		//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 		public override void Init(MapItem item, Stage stage) {
