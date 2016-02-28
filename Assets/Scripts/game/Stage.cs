@@ -7,12 +7,18 @@ public class Stage : MonoBehaviour {
 
 	private const int TILE_SIZE = 16;
 
+	// tile sprite codes
+	private const int BRICK = 1;
+	private const int SPAWNING_POINT = 3;
+
 	public GameObject[] tilesheet;
 
 	[HideInInspector] public int width;
 	[HideInInspector] public int height;
 	[HideInInspector] public int[,] grid;
 	[HideInInspector] public Tile[,] tiles;
+	[HideInInspector] public MapItem[] spawnpoints;
+
 
 	public static Stage instance;
 
@@ -22,10 +28,11 @@ public class Stage : MonoBehaviour {
 	//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 	public void Init(string stage) {
 		Map map = Maps.GetMap(stage);
-
 		map = RandomiseMap(map);
 
-		width  = map.width;
+		spawnpoints = map.Find(SPAWNING_POINT);
+
+		width = map.width;
 		height = map.height;
 		grid   = new int[width, height];
 		tiles  = new Tile[width, height];
@@ -33,7 +40,7 @@ public class Stage : MonoBehaviour {
 		for (int i = 0; i < width; i++) {
 			for (int j = 0; j < height; j++) {
 				MapItem item = map.Get(i, j);
-				if (item == null) {
+				if (item == null || item.sprite == SPAWNING_POINT) {
 					tiles[i, j] = emptyTile;
 					continue;
 				}
@@ -53,8 +60,8 @@ public class Stage : MonoBehaviour {
 
 		Map map = original.Clone();
 
-		// find all bricks tiles (sprite 1) in the map
-		MapItem[] bricks = map.Find(1);
+		// find all bricks tiles in the map
+		MapItem[] bricks = map.Find(BRICK);
 
 		int EMPTY = (int)((float)bricks.Length * empty);
 

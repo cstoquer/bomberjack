@@ -40,8 +40,8 @@ namespace Pixelbox {
 		//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 		public MapItem[] Find(int sprite, int flagA = 0, int flagB = 0) {
 			List<MapItem> arr = new List<MapItem>();
-			for (int x = 0; x < width; x++) {
-				for (int y = 0; y < height; y++) {
+			for (int y = 0; y < height; y++) {
+				for (int x = 0; x < width; x++) {
 					MapItem item = items[x, y];
 					if (item == null) continue;
 					if(item.sprite == sprite && item.flagA == flagA && item.flagB == flagB) {

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Pixelbox;
 using Bomberman.Tiles;
 
 namespace Bomberman.Entities {
@@ -31,13 +32,13 @@ namespace Bomberman.Entities {
 		private bool walking;
 
 		//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-		public void Init(int id, Vector2 spawnpoint, string variation, Stage stage) {
+		public void Init(int id, MapItem spawnpoint, string variation, Stage stage) {
 			this.id = id;
 			this.stage = stage;
 			joystick = id + 1;
 			animator = new SpriteAnimator("men", variation, GetComponent<SpriteRenderer>());
-			x = WIDTH + TILE * (int)spawnpoint.x;
-			y = WIDTH + TILE * (int)spawnpoint.y;
+			x = WIDTH + TILE * spawnpoint.x;
+			y = WIDTH + TILE * spawnpoint.y;
 		}
 
 		//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄

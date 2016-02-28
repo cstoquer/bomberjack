@@ -18,6 +18,7 @@ namespace Bomberman.Intro {
 			// select
 			for (int i = 1; i <= 4; i++) {
 				if (Input.GetButtonDown("joy" + i + "_A")) {
+					// TODO go to stage selection screen
 					SceneManager.LoadScene("game");
 				}
 			}
