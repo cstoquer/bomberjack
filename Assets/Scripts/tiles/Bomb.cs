@@ -7,6 +7,8 @@ namespace Bomberman.Tiles {
 		public int DELAY; // delay between bomb trigger and explosion
 		public GameObject explosionPrefab;
 
+		[HideInInspector] public int playerId; // who drop that bomb
+
 		private int flameSize;
 		private int timer;
 
@@ -19,11 +21,12 @@ namespace Bomberman.Tiles {
 		}
 
 		//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-		public void Init(int i, int j, int flameSize, int timer) {
+		public void Init(int i, int j, int flameSize, int timer, int playerId = -1) {
 			this.i = i;
 			this.j = j;
 			this.flameSize = flameSize;
 			this.timer = timer;
+			this.playerId = playerId;
 			this.stage = Stage.instance;
 
 			spriteRenderer = gameObject.GetComponent<SpriteRenderer>();

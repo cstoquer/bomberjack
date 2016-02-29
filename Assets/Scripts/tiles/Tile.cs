@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using Pixelbox;
+using Bomberman.Entities;
 
 namespace Bomberman.Tiles {
 	public class Tile : MonoBehaviour {

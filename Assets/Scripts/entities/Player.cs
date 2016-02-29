@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using Pixelbox;
 using Bomberman.Tiles;
 
@@ -13,7 +14,16 @@ namespace Bomberman.Entities {
 		private const int FACE  =  7800;
 		private const int SIDE  =  7800;
 
+		// player properties
 		public int speed;
+		public int flame;
+		public int bomb;
+		public bool canKick;
+		public bool canThrow;
+		public bool canPunch;
+
+		public bool isInvicible;
+		public bool hasDisease;
 
 		[HideInInspector] public int id; // bomberman number (0 - 3)
 		[HideInInspector] public bool alive;
@@ -30,6 +40,8 @@ namespace Bomberman.Entities {
 		private SpriteAnimator animator;
 		private string facing;
 		private bool walking;
+
+		private List<Tile> collectedPowerups = new List<Tile>();
 
 		//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 		public void Init(int id, MapItem spawnpoint, string variation, Stage stage) {
@@ -173,14 +185,23 @@ namespace Bomberman.Entities {
 			i = x / TILE;
 			j = y / TILE;
 
+			tile = stage.GetTile(i, j);
+
 			// drop a bomb on stage
 			if (Input.GetButtonDown("joy" + joystick + "_A")) {
-				tile = stage.GetTile(i, j);
-				if (tile.isEmpty) ((Bomb)stage.AddTile(i, j, 2)).Init(i, j, 5, 120); // FIXME
+				if (tile.isEmpty) ((Bomb)stage.AddTile(i, j, 2)).Init(i, j, flame, 120, id); // FIXME
 			}
 
+			// on flame behaviour
+			if (!isInvicible && tile.GetType() == typeof(Flame)) {
+				StartCoroutine(DeathAnimCoroutine());
+			}
 
-			if (stage.GetTile(i, j).GetType() == typeof(Flame)) StartCoroutine(DeathAnimCoroutine());
+			// on collectable
+			if (tile.GetType() == typeof(Powerup)) {
+				collectedPowerups.Add(tile);
+				// TODO
+			}
 		}
 
 		//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
