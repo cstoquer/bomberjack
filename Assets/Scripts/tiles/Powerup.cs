@@ -5,7 +5,15 @@ namespace Bomberman.Tiles {
 	public class Powerup : Destructible {
 		public Sprite[] spriteAnim;
 		public PowerupCode code;
-	}
 
-	// TODO when powerup explodes, forbid to be picked up ?
+		private int frame;
+
+		// TODO when powerup is exploding, forbid to be picked up ?
+
+		void Update() {
+			if (spriteAnim.Length < 2) return;
+			if (++frame >= spriteAnim.Length) frame = 0;
+			spriteRenderer.sprite = spriteAnim[frame];
+		}
+	}
 }

@@ -128,7 +128,6 @@ public class Stage : MonoBehaviour {
 	public void SetTile(int i, int j, Tile tile = null) {
 		if (i < 0 || j < 0 || i >= width || j >= height) return;
 		if (tile == null) tile = emptyTile;
-		if (tiles[i, j] != null && tiles[i, j] != emptyTile) tiles[i, j].overriden = true;
 		tiles[i, j] = tile;
 	}
 
