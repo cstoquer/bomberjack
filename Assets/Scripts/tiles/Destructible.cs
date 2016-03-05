@@ -25,10 +25,13 @@ namespace Bomberman.Tiles {
 				}
 			}
 
-			// TODO item spawning
+			SpawnContent();
+			Remove();
+		}
 
-			stage.SetTile(i, j);
-			Destroy(gameObject);
+		//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+		protected virtual void SpawnContent() {
+			// overiten in Brick
 		}
 	}
 }

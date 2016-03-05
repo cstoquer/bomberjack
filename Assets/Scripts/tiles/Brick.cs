@@ -2,8 +2,12 @@
 
 namespace Bomberman.Tiles {
 	public class Brick : Destructible {
-		[HideInInspector] public int powerup; // if brick contain a powerup
+		[HideInInspector] public PowerupCode powerup; // if brick contain a powerup
 
-		// TODO powerup spawning
+		//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+		protected override void SpawnContent() {
+			if (powerup == PowerupCode.NULL) return;
+			stage.AddPowerup(i, j, powerup);
+		}
 	}
 }

@@ -61,18 +61,17 @@ public class Explosion : MonoBehaviour {
 
 		Tile tile = stage.GetTile(i, j);
 
-		if (tile == null) {
+		if (tile.isEmpty || tile.GetType() == typeof(Flame)) {
 			stage.SetTile(i, j, CreateFlame(arr, type, i, j));
 			return true;
 		}
 		
-		if (tile.GetType() == typeof(Flame)) {
-			Flame flame = (Flame)tile;
-			flame.overriden = true;
+		/*if (tile.GetType() == typeof(Flame)) {
+			tile.overriden = true;
 			// keep the newest flame in Stage
 			stage.SetTile(i, j, CreateFlame(arr, type, i, j));
 			return true;
-		}
+		}*/
 
 		// check if tile is destructible
 		if (tile.isExplodable) tile.Explode();

@@ -1,9 +1,17 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
+using System.Collections.Generic;
 using Pixelbox;
 using Bomberman.Tiles;
 
 public class Stage : MonoBehaviour {
+
+	[Serializable]
+	public class PowerupItem {
+		public PowerupCode code;
+		public GameObject tile;
+	}
 
 	private const int TILE_SIZE = 16;
 
@@ -12,6 +20,7 @@ public class Stage : MonoBehaviour {
 	private const int SPAWNING_POINT = 3;
 
 	public GameObject[] tilesheet;
+	public PowerupItem[] powerups;
 
 	[HideInInspector] public int width;
 	[HideInInspector] public int height;
@@ -24,6 +33,15 @@ public class Stage : MonoBehaviour {
 
 	// FIXME MonoBehaviour cannot be created with 'new' keyword. should use AddComponent()
 	private static Tile emptyTile = new Tile(0, 0, true);
+
+	private Dictionary<PowerupCode, GameObject> powerupsDictionary;
+
+	//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄void Start
+	void Start() {
+		for (int i = 0; i < powerups.Length; i++) {
+			powerupsDictionary.Add(powerups[i].code, powerups[i].tile);
+		}
+	}
 
 	//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 	public void Init(string stage) {
@@ -67,7 +85,7 @@ public class Stage : MonoBehaviour {
 
 		// shuffle bricks array
 		for (int i = bricks.Length - 1; i >= 0; i--) {
-			int r = (int)Random.Range(0, i);
+			int r = (int)UnityEngine.Random.Range(0, i);
 			MapItem temp = bricks[r];
 			bricks[r] = bricks[i];
 			bricks[i] = temp;
@@ -98,10 +116,27 @@ public class Stage : MonoBehaviour {
 	}
 
 	//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+	public void AddPowerup(int i, int j, PowerupCode code) {
+		if (i < 0 || j < 0 || i >= width || j >= height) return;
+		if (!powerupsDictionary.ContainsKey(code)) return;
+		GameObject tileObj = (GameObject)Instantiate(powerupsDictionary[code], new Vector3(i * TILE_SIZE, -j * TILE_SIZE, 0f), Quaternion.identity);
+		tiles[i, j] = tileObj.GetComponent<Tile>();
+		tileObj.transform.SetParent(transform);
+	}
+
+	//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 	public void SetTile(int i, int j, Tile tile = null) {
 		if (i < 0 || j < 0 || i >= width || j >= height) return;
-		if (tile == null) tile = emptyTile; 
+		if (tile == null) tile = emptyTile;
+		if (tiles[i, j] != null && tiles[i, j] != emptyTile) tiles[i, j].overriden = true;
 		tiles[i, j] = tile;
+	}
+
+	//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+	public void RemoveTile(int i, int j, Tile tile) {
+		if (i < 0 || j < 0 || i >= width || j >= height) return;
+		if (tiles[i, j] != tile) return;
+		tiles[i, j] = emptyTile;
 	}
 
 	//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
