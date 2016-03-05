@@ -83,7 +83,7 @@ public class Explosion : MonoBehaviour {
 	//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 	private Flame CreateFlame(List<Flame> arr, Sprite[] type, int i, int j) {
 		Flame flame = Instantiate(flamePrefab).GetComponent<Flame>();
-		flame.Init(type, i, j);
+		flame.Init(i, j, type);
 		flame.gameObject.transform.SetParent(transform);
 		arr.Add(flame);
 		return flame;

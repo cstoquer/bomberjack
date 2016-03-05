@@ -5,7 +5,7 @@ namespace Bomberman.Tiles {
 	public class Destructible : Tile {
 
 		public Sprite[] destructAnim;
-		public GameObject contents; // a prefab reference to instanciate when tile is destroyed
+		public GameObject contentPrefab; // a prefab reference to instanciate when tile is destroyed
 
 		protected bool isExploding = false;
 
@@ -26,14 +26,10 @@ namespace Bomberman.Tiles {
 				}
 			}
 
-			SpawnContent();
+			// spawn contents
+			stage.AddTile(i, j, contentPrefab);
+	
 			Remove();
-		}
-
-		//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-		protected virtual void SpawnContent() {
-			if (contents == null) return;
-			stage.AddTile(i, j, contents);
 		}
 	}
 }

@@ -43,10 +43,10 @@ namespace Bomberman.Tiles {
 		}
 
 		//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-		public virtual void Init(MapItem item, Stage stage) {
-			this.i = item.x;
-			this.j = item.y;
-			this.stage = stage;
+		public virtual void Init(int i, int j) {
+			this.i = i;
+			this.j = j;
+			this.stage = Stage.instance;
 
 			spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
 			spriteRenderer.sortingOrder = j;

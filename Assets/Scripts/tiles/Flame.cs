@@ -11,13 +11,11 @@ namespace Bomberman.Tiles {
 		}
 
 		//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-		public void Init(Sprite[] animSprites, int i, int j) {
+		public void Init(int i, int j, Sprite[] animSprites) {
+			base.Init(i, j);
 			this.animSprites = animSprites;
-			this.i = i;
-			this.j = j;
-			spriteRenderer = GetComponent<SpriteRenderer>();
+
 			spriteRenderer.sprite = animSprites[0];
-			spriteRenderer.sortingOrder = j;
 			gameObject.transform.position = new Vector3(i * 16, -j * 16, 0f);
 		}
 	}

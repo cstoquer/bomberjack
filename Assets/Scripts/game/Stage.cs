@@ -29,6 +29,8 @@ public class Stage : MonoBehaviour {
 
 	//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 	public void Init(string stage) {
+		instance = this;
+
 		Map map = Maps.GetMap(stage);
 		map = RandomiseMap(map);
 
@@ -49,12 +51,15 @@ public class Stage : MonoBehaviour {
 				GameObject tileObj = (GameObject)Instantiate(tilesheet[item.sprite], new Vector3(i * TILE_SIZE, -j * TILE_SIZE, 0f), Quaternion.identity);
 				Tile tile = tileObj.GetComponent<Tile>();
 				tiles[i, j] = tile;
-				tile.Init(item, this);
+				tile.Init(item.x, item.y);
 				tileObj.transform.SetParent(transform);
+
+				if (item.flagA > 0 && item.flagA < powerups.Length) {
+					((Destructible)tile).contentPrefab = powerups[item.flagA];
+				}
 			}
 		}
 
-		instance = this;
 		Camera.main.GetComponent<CameraMan>().InitPosition(this);
 	}
 
@@ -86,7 +91,7 @@ public class Stage : MonoBehaviour {
 			map.items[item.x, item.y] = null;
 		}
 
-		// next m bricks get powerups inside
+		// next m bricks get bomb powerups inside
 		i = len; len += 10;
 		for (; i < len; i++) {
 			MapItem item = bricks[i];
@@ -100,9 +105,11 @@ public class Stage : MonoBehaviour {
 
 	//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 	public Tile AddTile(int i, int j, GameObject tilePrefab) {
+		if (tilePrefab == null) return emptyTile;
 		if (i < 0 || j < 0 || i >= width || j >= height) return emptyTile;
 		GameObject tileObj = (GameObject)Instantiate(tilePrefab, new Vector3(i * TILE_SIZE, -j * TILE_SIZE, 0f), Quaternion.identity);
-		tiles[i, j] = tileObj.GetComponent<Tile>();
+		Tile tile = tiles[i, j] = tileObj.GetComponent<Tile>();
+		tile.Init(i, j);
 		tileObj.transform.SetParent(transform);
 		return tiles[i, j];
 	}

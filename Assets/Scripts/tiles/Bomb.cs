@@ -12,25 +12,13 @@ namespace Bomberman.Tiles {
 		private int flameSize;
 		private int timer;
 
-
-		//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-		public override void Init(MapItem item, Stage stage) {
-			base.Init(item, stage);
-			flameSize = 4;
-			timer = 120 + Random.Range(0, 120);
-		}
-
 		//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 		public void Init(int i, int j, int flameSize, int timer, int playerId = -1) {
-			this.i = i;
-			this.j = j;
+			base.Init(i, j);
+
 			this.flameSize = flameSize;
 			this.timer = timer;
 			this.playerId = playerId;
-			this.stage = Stage.instance;
-
-			spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
-			spriteRenderer.sortingOrder = j;
 		}
 
 		//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
