@@ -11,9 +11,16 @@ namespace Bomberman {
 		private string[] playerVariations = { "white", "black", "blue", "red" };
 		private Player[] players = new Player[4];
 
-		private int alive;
+		private int alivePlayerCount;
 
 		public static Game instance;
+
+		[Header("GAME CONTANTS")]
+		public int MAX_BOMB;
+		public int MAX_FLAME;
+		public int MAX_SPEED;
+		public int SPEED_INC;
+
 
 		//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 		void Start() {
@@ -28,7 +35,7 @@ namespace Bomberman {
 				players[i] = player;
 			}
 
-			alive = 4;
+			alivePlayerCount = 4;
 		}
 
 		//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
@@ -38,11 +45,13 @@ namespace Bomberman {
 
 		//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 		public void PlayerDeath(Player player) {
-			if (--alive <= 1) StartCoroutine(GameoverCoroutine());
+			// FIXME avoid starting coroutine more than once
+			if (--alivePlayerCount <= 1) StartCoroutine(GameoverCoroutine());
 		}
 
 		//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 		protected IEnumerator GameoverCoroutine() {
+			// TODO wait few frame to make sur it's not a draw
 			// TODO set last player invincible
 			// TODO bomb should not explode anymore
 

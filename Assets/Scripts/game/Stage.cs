@@ -44,10 +44,12 @@ public class Stage : MonoBehaviour {
 		for (int i = 0; i < width; i++) {
 			for (int j = 0; j < height; j++) {
 				MapItem item = map.Get(i, j);
-				if (item == null || item.sprite == SPAWNING_POINT) {
+
+				if (item == null || item.sprite >= tilesheet.Length || tilesheet[item.sprite] == null) {
 					tiles[i, j] = emptyTile;
 					continue;
 				}
+
 				GameObject tileObj = (GameObject)Instantiate(tilesheet[item.sprite], new Vector3(i * TILE_SIZE, -j * TILE_SIZE, 0f), Quaternion.identity);
 				Tile tile = tileObj.GetComponent<Tile>();
 				tiles[i, j] = tile;
@@ -105,7 +107,7 @@ public class Stage : MonoBehaviour {
 			map.items[item.x, item.y].flagA = 2;
 		}
 
-		// TODO
+		// TODO other powerups
 
 		return map;
 	}

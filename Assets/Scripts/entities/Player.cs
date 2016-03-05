@@ -6,6 +6,7 @@ using Bomberman.Tiles;
 
 namespace Bomberman.Entities {
 	public class Player : MonoBehaviour {
+
 		public GameObject bombPrefab;
 
 		// dimensions and speed are stored in millipixels
@@ -207,29 +208,15 @@ namespace Bomberman.Entities {
 		//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 		private void CollectItem(Powerup powerup) {
 			collectedPowerups.Add(powerup);
-			// TODO check maximums
 			switch (powerup.code) {
-				case PowerupCode.BOMB:
-					bomb += 1;
-					break;
-				case PowerupCode.FLAME:
-					flame += 1;
-					break;
-				case PowerupCode.SPEED:
-					// TODO
-					break;
-				case PowerupCode.KICK:
-					canKick = true;
-					break;
-				case PowerupCode.PUNCH:
-					canPunch = true;
-					break;
-				case PowerupCode.THROW:
-					canThrow = true;
-					break;
-				// TODO super flame
-				default:
-					break;
+				case PowerupCode.BOMB:  if (bomb  < Game.instance.MAX_BOMB)  bomb  += 1; break;
+				case PowerupCode.FLAME: if (flame < Game.instance.MAX_FLAME) flame += 1; break;
+				case PowerupCode.SPEED: if (speed < Game.instance.MAX_SPEED) speed += Game.instance.SPEED_INC; break;
+				case PowerupCode.KICK:  canKick  = true; break;
+				case PowerupCode.PUNCH: canPunch = true; break;
+				case PowerupCode.THROW: canThrow = true; break;
+				case PowerupCode.SUPER_FLAME: flame = Game.instance.MAX_FLAME; break;
+				default: break;
 			}
 			powerup.Remove();
 		}

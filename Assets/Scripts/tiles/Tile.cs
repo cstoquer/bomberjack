@@ -10,7 +10,8 @@ namespace Bomberman.Tiles {
 		SPEED,
 		PUNCH,
 		THROW,
-		KICK
+		KICK,
+		SUPER_FLAME
 	}
 
 	public class Tile : MonoBehaviour {
