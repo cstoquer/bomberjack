@@ -23,6 +23,7 @@ namespace Bomberman.Tiles {
 		public bool isExplodable;
 		public bool isWalkable;
 
+
 		protected SpriteRenderer spriteRenderer;
 		protected Stage stage;
 

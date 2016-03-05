@@ -6,6 +6,7 @@ using Bomberman.Tiles;
 
 namespace Bomberman.Entities {
 	public class Player : MonoBehaviour {
+		public GameObject bombPrefab;
 
 		// dimensions and speed are stored in millipixels
 		private const int PIXEL =  1000;
@@ -189,7 +190,7 @@ namespace Bomberman.Entities {
 
 			// drop a bomb on stage
 			if (Input.GetButtonDown("joy" + joystick + "_A")) {
-				if (tile.isEmpty) ((Bomb)stage.AddTile(i, j, 2)).Init(i, j, flame, 120, id); // FIXME
+				if (tile.isEmpty) ((Bomb)stage.AddTile(i, j, bombPrefab)).Init(i, j, flame, 120, id);
 			}
 
 			// on flame behaviour

@@ -7,12 +7,6 @@ using Bomberman.Tiles;
 
 public class Stage : MonoBehaviour {
 
-	[Serializable]
-	public class PowerupItem {
-		public PowerupCode code;
-		public GameObject tile;
-	}
-
 	private const int TILE_SIZE = 16;
 
 	// tile sprite codes
@@ -20,7 +14,7 @@ public class Stage : MonoBehaviour {
 	private const int SPAWNING_POINT = 3;
 
 	public GameObject[] tilesheet;
-	public PowerupItem[] powerups;
+	public GameObject[] powerups;
 
 	[HideInInspector] public int width;
 	[HideInInspector] public int height;
@@ -28,20 +22,10 @@ public class Stage : MonoBehaviour {
 	[HideInInspector] public Tile[,] tiles;
 	[HideInInspector] public MapItem[] spawnpoints;
 
-
 	public static Stage instance;
 
 	// FIXME MonoBehaviour cannot be created with 'new' keyword. should use AddComponent()
 	private static Tile emptyTile = new Tile(0, 0, true);
-
-	private Dictionary<PowerupCode, GameObject> powerupsDictionary;
-
-	//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄void Start
-	void Start() {
-		for (int i = 0; i < powerups.Length; i++) {
-			powerupsDictionary.Add(powerups[i].code, powerups[i].tile);
-		}
-	}
 
 	//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 	public void Init(string stage) {
@@ -63,8 +47,9 @@ public class Stage : MonoBehaviour {
 					continue;
 				}
 				GameObject tileObj = (GameObject)Instantiate(tilesheet[item.sprite], new Vector3(i * TILE_SIZE, -j * TILE_SIZE, 0f), Quaternion.identity);
-				tiles[i, j] = tileObj.GetComponent<Tile>();
-				tiles[i, j].Init(item, this);
+				Tile tile = tileObj.GetComponent<Tile>();
+				tiles[i, j] = tile;
+				tile.Init(item, this);
 				tileObj.transform.SetParent(transform);
 			}
 		}
@@ -81,10 +66,13 @@ public class Stage : MonoBehaviour {
 		// find all bricks tiles in the map
 		MapItem[] bricks = map.Find(BRICK);
 
-		int EMPTY = (int)((float)bricks.Length * empty);
+		int i;
+		int len = 0;
 
+		int EMPTY = (int)((float)bricks.Length * empty);
+		
 		// shuffle bricks array
-		for (int i = bricks.Length - 1; i >= 0; i--) {
+		for (i = bricks.Length - 1; i >= 0; i--) {
 			int r = (int)UnityEngine.Random.Range(0, i);
 			MapItem temp = bricks[r];
 			bricks[r] = bricks[i];
@@ -92,12 +80,18 @@ public class Stage : MonoBehaviour {
 		}
 
 		// first n bricks become empty tiles
-		for (int i = 0; i < EMPTY; i++) {
+		i = len; len += EMPTY;
+		for (; i < len; i++) {
 			MapItem item = bricks[i];
 			map.items[item.x, item.y] = null;
 		}
 
 		// next m bricks get powerups inside
+		i = len; len += 10;
+		for (; i < len; i++) {
+			MapItem item = bricks[i];
+			map.items[item.x, item.y].flagA = 1;
+		}
 
 		// TODO
 
@@ -105,23 +99,12 @@ public class Stage : MonoBehaviour {
 	}
 
 	//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-	// This function is primaly used by players to add bombs on the stage
-	public Tile AddTile(int i, int j, int item) {
+	public Tile AddTile(int i, int j, GameObject tilePrefab) {
 		if (i < 0 || j < 0 || i >= width || j >= height) return emptyTile;
-		GameObject tileObj = (GameObject)Instantiate(tilesheet[item], new Vector3(i * TILE_SIZE, -j * TILE_SIZE, 0f), Quaternion.identity);
+		GameObject tileObj = (GameObject)Instantiate(tilePrefab, new Vector3(i * TILE_SIZE, -j * TILE_SIZE, 0f), Quaternion.identity);
 		tiles[i, j] = tileObj.GetComponent<Tile>();
-		//tiles[i, j].Init(item, this); // TODO
 		tileObj.transform.SetParent(transform);
 		return tiles[i, j];
-	}
-
-	//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-	public void AddPowerup(int i, int j, PowerupCode code) {
-		if (i < 0 || j < 0 || i >= width || j >= height) return;
-		if (!powerupsDictionary.ContainsKey(code)) return;
-		GameObject tileObj = (GameObject)Instantiate(powerupsDictionary[code], new Vector3(i * TILE_SIZE, -j * TILE_SIZE, 0f), Quaternion.identity);
-		tiles[i, j] = tileObj.GetComponent<Tile>();
-		tileObj.transform.SetParent(transform);
 	}
 
 	//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
