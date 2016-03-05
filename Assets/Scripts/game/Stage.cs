@@ -84,18 +84,25 @@ public class Stage : MonoBehaviour {
 			bricks[i] = temp;
 		}
 
-		// first n bricks become empty tiles
+		// first bricks become empty tiles
 		i = len; len += EMPTY;
 		for (; i < len; i++) {
 			MapItem item = bricks[i];
 			map.items[item.x, item.y] = null;
 		}
 
-		// next m bricks get bomb powerups inside
+		// next bricks get bomb powerups inside
 		i = len; len += 10;
 		for (; i < len; i++) {
 			MapItem item = bricks[i];
 			map.items[item.x, item.y].flagA = 1;
+		}
+
+		// next bricks get flame powerups inside
+		i = len; len += 10;
+		for (; i < len; i++) {
+			MapItem item = bricks[i];
+			map.items[item.x, item.y].flagA = 2;
 		}
 
 		// TODO
@@ -122,7 +129,9 @@ public class Stage : MonoBehaviour {
 	}
 
 	//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-	public void RemoveTile(int i, int j, Tile tile) {
+	public void RemoveTile(Tile tile) {
+		int i = tile.i;
+		int j = tile.j;
 		if (i < 0 || j < 0 || i >= width || j >= height) return;
 		if (tiles[i, j] != tile) return;
 		tiles[i, j] = emptyTile;

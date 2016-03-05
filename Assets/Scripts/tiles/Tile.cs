@@ -60,7 +60,7 @@ namespace Bomberman.Tiles {
 
 		//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 		public void Remove() {
-			Stage.instance.RemoveTile(i, j, this);
+			Stage.instance.RemoveTile(this);
 			Destroy(gameObject);
 		}
 	}

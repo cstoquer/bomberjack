@@ -193,16 +193,45 @@ namespace Bomberman.Entities {
 				if (tile.isEmpty) ((Bomb)stage.AddTile(i, j, bombPrefab)).Init(i, j, flame, 120, id);
 			}
 
-			// on flame behaviour
+			// stands on flame behaviour
 			if (!isInvicible && tile.GetType() == typeof(Flame)) {
 				StartCoroutine(DeathAnimCoroutine());
 			}
 
-			// on collectable
+			// stands on collectable
 			if (tile.GetType() == typeof(Powerup)) {
-				collectedPowerups.Add(tile);
-				// TODO
+				CollectItem((Powerup)tile);
 			}
+		}
+
+		//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+		private void CollectItem(Powerup powerup) {
+			collectedPowerups.Add(powerup);
+			// TODO check maximums
+			switch (powerup.code) {
+				case PowerupCode.BOMB:
+					bomb += 1;
+					break;
+				case PowerupCode.FLAME:
+					flame += 1;
+					break;
+				case PowerupCode.SPEED:
+					// TODO
+					break;
+				case PowerupCode.KICK:
+					canKick = true;
+					break;
+				case PowerupCode.PUNCH:
+					canPunch = true;
+					break;
+				case PowerupCode.THROW:
+					canThrow = true;
+					break;
+				// TODO super flame
+				default:
+					break;
+			}
+			powerup.Remove();
 		}
 
 		//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
@@ -220,6 +249,8 @@ namespace Bomberman.Entities {
 
 			yield return new WaitForSeconds(0.7f);
 			GetComponent<SpriteRenderer>().sprite = null;
+
+			// TODO spawn collected items in stage
 		}
 	}
 }

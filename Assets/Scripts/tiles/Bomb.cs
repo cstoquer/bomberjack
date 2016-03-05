@@ -35,7 +35,7 @@ namespace Bomberman.Tiles {
 			for (int c = 0; c < DELAY; c++) yield return null;
 
 			GetComponent<Animator>().Stop();
-			stage.RemoveTile(i, j, this);
+			stage.RemoveTile(this);
 
 			GameObject instance = (GameObject)Instantiate(explosionPrefab, transform.position, Quaternion.identity);
 			instance.GetComponent<Explosion>().Init(i, j, flameSize);
