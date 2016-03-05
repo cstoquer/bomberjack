@@ -36,6 +36,8 @@ namespace Bomberman.Entities {
 		[HideInInspector] private int x; // position in pixels
 		[HideInInspector] private int y;
 
+		[HideInInspector] public int droppedBomb; // how many bombs this bomberman have on the stage
+
 		private int joystick; // number of the joystick that control this bomberman
 
 		private Stage stage;
@@ -61,6 +63,7 @@ namespace Bomberman.Entities {
 			alive = true;
 			facing = "Down";
 			walking = false;
+			droppedBomb = 0;
 			animator.Start("stand" + facing);
 		}
 
@@ -190,8 +193,9 @@ namespace Bomberman.Entities {
 			tile = stage.GetTile(i, j);
 
 			// drop a bomb on stage
-			if (Input.GetButtonDown("joy" + joystick + "_A")) {
-				if (tile.isEmpty) ((Bomb)stage.AddTile(i, j, bombPrefab)).Init(i, j, flame, 120, id);
+			if (Input.GetButtonDown("joy" + joystick + "_A") && droppedBomb < bomb) {
+				if (tile.isEmpty) ((Bomb)stage.AddTile(i, j, bombPrefab)).Init(i, j, flame, 120, this);
+				droppedBomb += 1;
 			}
 
 			// stands on flame behaviour
