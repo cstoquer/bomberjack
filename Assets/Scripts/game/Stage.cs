@@ -37,7 +37,7 @@ public class Stage : MonoBehaviour {
 
 		spawnpoints = map.Find(SPAWNING_POINT);
 
-		width = map.width;
+		width  = map.width;
 		height = map.height;
 		grid   = new int[width, height];
 		tiles  = new Tile[width, height];
@@ -51,11 +51,7 @@ public class Stage : MonoBehaviour {
 					continue;
 				}
 
-				GameObject tileObj = (GameObject)Instantiate(tilesheet[item.sprite], new Vector3(i * TILE_SIZE, -j * TILE_SIZE, 0f), Quaternion.identity);
-				Tile tile = tileObj.GetComponent<Tile>();
-				tiles[i, j] = tile;
-				tile.Init(item.x, item.y);
-				tileObj.transform.SetParent(transform);
+				Tile tile = AddTile(i, j, tilesheet[item.sprite]);
 
 				if (item.flagA > 0 && item.flagA < powerups.Length) {
 					((Destructible)tile).contentPrefab = powerups[item.flagA];
@@ -117,7 +113,7 @@ public class Stage : MonoBehaviour {
 		if (i < 0 || j < 0 || i >= width || j >= height) return emptyTile;
 		GameObject tileObj = (GameObject)Instantiate(tilePrefab, new Vector3(i * TILE_SIZE, -j * TILE_SIZE, 0f), Quaternion.identity);
 		Tile tile = tiles[i, j] = tileObj.GetComponent<Tile>();
-		tile.Init(i, j);
+		tile.Init(i, j, tilePrefab);
 		tileObj.transform.SetParent(transform);
 		return tiles[i, j];
 	}

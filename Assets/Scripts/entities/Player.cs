@@ -238,6 +238,18 @@ namespace Bomberman.Entities {
 			GetComponent<SpriteRenderer>().sprite = null;
 
 			// TODO spawn collected items in stage
+			for (int i = 0; i < collectedPowerups.Count; i++) {
+				Powerup powerup = (Powerup)collectedPowerups[i];
+				Tile position = stage.GetTile(powerup.i, powerup.j);
+				if (position.isEmpty) {
+					// TODO check that there is no entities
+					stage.AddTile(powerup.i, powerup.j, powerup.prefab);
+				} else {
+					// TODO find a random valid position
+					print("could not respawn powerup");
+				}
+				yield return new WaitForEndOfFrame();
+			}
 		}
 	}
 }

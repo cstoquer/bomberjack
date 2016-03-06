@@ -19,15 +19,14 @@ namespace Bomberman.Tiles {
 
 		[HideInInspector] public int i;
 		[HideInInspector] public int j;
-		
+		[HideInInspector] public GameObject prefab;
+
 		public bool isEmpty;
 		public bool isExplodable;
 		public bool isWalkable;
 
-
 		protected SpriteRenderer spriteRenderer;
 		protected Stage stage;
-
 
 		//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 		void Start() {
@@ -44,10 +43,11 @@ namespace Bomberman.Tiles {
 		}
 
 		//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-		public virtual void Init(int i, int j) {
+		public virtual void Init(int i, int j, GameObject prefab = null) {
 			this.i = i;
 			this.j = j;
 			this.stage = Stage.instance;
+			this.prefab = prefab;
 
 			spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
 			spriteRenderer.sortingOrder = j;
