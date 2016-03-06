@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Pixelbox;
+using Bomberman;
 using Bomberman.Tiles;
 
 public class Stage : MonoBehaviour {
@@ -66,7 +67,7 @@ public class Stage : MonoBehaviour {
 	}
 
 	//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-	private Map RandomiseMap(Map original, float empty = 0.25f) {
+	private Map RandomiseMap(Map original) {
 
 		Map map = original.Clone();
 
@@ -74,9 +75,6 @@ public class Stage : MonoBehaviour {
 		MapItem[] bricks = map.Find(BRICK);
 
 		int i;
-		int len = 0;
-
-		int EMPTY = (int)((float)bricks.Length * empty);
 		
 		// shuffle bricks array
 		for (i = bricks.Length - 1; i >= 0; i--) {
@@ -87,27 +85,28 @@ public class Stage : MonoBehaviour {
 		}
 
 		// first bricks become empty tiles
-		i = len; len += EMPTY;
-		for (; i < len; i++) {
+		int len = (int)((float)bricks.Length * Game.instance.EMPTY_PERCENT);
+		for (i = 0; i < len; i++) {
 			MapItem item = bricks[i];
 			map.items[item.x, item.y] = null;
 		}
 
-		// next bricks get bomb powerups inside
-		i = len; len += 10;
-		for (; i < len; i++) {
-			MapItem item = bricks[i];
-			map.items[item.x, item.y].flagA = 1;
-		}
+		// next bricks get powerups inside
+		int[] powerups = {
+			Game.instance.BOMB,
+			Game.instance.FLAME,
+			Game.instance.SPEED,
+			Game.instance.PUNCH,
+			Game.instance.KICK,
+			Game.instance.SUPER_FLAME
+		};
 
-		// next bricks get flame powerups inside
-		i = len; len += 10;
-		for (; i < len; i++) {
-			MapItem item = bricks[i];
-			map.items[item.x, item.y].flagA = 2;
+		for (int p = 0; p < powerups.Length; p++) {
+			for (len += powerups[p]; i < len; i++) {
+				MapItem item = bricks[i];
+				map.items[item.x, item.y].flagA = p + 1;
+			}
 		}
-
-		// TODO other powerups
 
 		return map;
 	}

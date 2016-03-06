@@ -18,6 +18,16 @@ namespace Bomberman {
 		[Header("STAGE")]
 		public string stageId;
 
+		[Range(0, 1)] public float EMPTY_PERCENT;
+
+		[Header("POWER UP")]
+		public int BOMB;
+		public int FLAME;
+		public int SPEED;
+		public int PUNCH;
+		public int KICK;
+		public int SUPER_FLAME;
+
 		[Header("GAME CONTANTS")]
 		public int MAX_BOMB;
 		public int MAX_FLAME;
