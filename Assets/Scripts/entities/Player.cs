@@ -73,10 +73,10 @@ namespace Bomberman.Entities {
 			if (!alive) return;
 
 			// read joystick inputs
-			bool goR = Input.GetAxisRaw("joy" + joystick + "_H") > 0;
-			bool goL = Input.GetAxisRaw("joy" + joystick + "_H") < 0;
-			bool goU = Input.GetAxisRaw("joy" + joystick + "_V") > 0;
-			bool goD = Input.GetAxisRaw("joy" + joystick + "_V") < 0;
+			bool goR = Input.GetAxis("joy" + joystick + "_H") > 0;
+			bool goL = Input.GetAxis("joy" + joystick + "_H") < 0;
+			bool goU = Input.GetAxis("joy" + joystick + "_V") > 0;
+			bool goD = Input.GetAxis("joy" + joystick + "_V") < 0;
 
 			// speed on x and y axis
 			int sx = 0;
