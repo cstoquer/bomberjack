@@ -241,12 +241,13 @@ namespace Bomberman.Entities {
 			for (int i = 0; i < collectedPowerups.Count; i++) {
 				Powerup powerup = (Powerup)collectedPowerups[i];
 				Tile position = stage.GetTile(powerup.i, powerup.j);
+				// TODO check that there is no entities
 				if (position.isEmpty) {
-					// TODO check that there is no entities
 					stage.AddTile(powerup.i, powerup.j, powerup.prefab);
 				} else {
-					// TODO find a random valid position
-					print("could not respawn powerup");
+					// find a random valid position
+					Vector2 newPosition = stage.GetEmptyPosition();
+					stage.AddTile((int)newPosition.x, (int)newPosition.y, powerup.prefab);
 				}
 				yield return new WaitForEndOfFrame();
 			}

@@ -23,6 +23,9 @@ public class Stage : MonoBehaviour {
 	[HideInInspector] public Tile[,] tiles;
 	[HideInInspector] public MapItem[] spawnpoints;
 
+	private Vector2[] randomPositions;
+	private int randomPositionIndex;
+
 	public static Stage instance;
 
 	// FIXME MonoBehaviour cannot be created with 'new' keyword. should use AddComponent()
@@ -42,8 +45,15 @@ public class Stage : MonoBehaviour {
 		grid   = new int[width, height];
 		tiles  = new Tile[width, height];
 
+		// random position initialisation
+		randomPositions = new Vector2[width * height];
+		randomPositionIndex = 0;
+
+		// stage creation
 		for (int i = 0; i < width; i++) {
 			for (int j = 0; j < height; j++) {
+				randomPositions[j * width + i] = new Vector2(i, j);
+
 				MapItem item = map.Get(i, j);
 
 				if (item == null || item.sprite >= tilesheet.Length || tilesheet[item.sprite] == null) {
@@ -59,6 +69,15 @@ public class Stage : MonoBehaviour {
 			}
 		}
 
+		// random positions shuffle
+		for (int i = randomPositions.Length - 1; i >= 0; i--) {
+			int r = (int)UnityEngine.Random.Range(0, i);
+			Vector2 temp = randomPositions[r];
+			randomPositions[r] = randomPositions[i];
+			randomPositions[i] = temp;
+		}
+
+		// setup camera
 		Camera.main.GetComponent<CameraMan>().InitPosition(this);
 	}
 
@@ -138,5 +157,16 @@ public class Stage : MonoBehaviour {
 	public Tile GetTile(int i, int j) {
 		if (i < 0 || j < 0 || i >= width || j >= height) return emptyTile;
 		return tiles[i, j];
+	}
+
+	//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+	// return a random empty position
+	public Vector2 GetEmptyPosition() {
+		Vector2 position = randomPositions[randomPositionIndex];
+		while (tiles[(int)position.x, (int)position.y] != emptyTile) {
+			if (++randomPositionIndex >= randomPositions.Length) randomPositionIndex = 0;
+			position = randomPositions[randomPositionIndex];
+		}
+		return position;
 	}
 }
