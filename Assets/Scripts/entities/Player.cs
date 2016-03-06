@@ -124,13 +124,12 @@ namespace Bomberman.Entities {
 				tileA = stage.GetTile(ti, (ty - SIDE) / TILE);
 				tileB = stage.GetTile(ti, (ty + SIDE) / TILE);
 				if ((!tileA.isWalkable || !tileB.isWalkable) && (x + FACE) / TILE < ti) {
+					
 					// if there is a walkable tile then make bomberman slide in front of the entrance
-					tile = stage.GetTile(ti, ty / TILE);
-					if (tile.isWalkable) {
-						int direction = ty % TILE < 8000 ? 1 : -1;
-						// TODO max speed so to keep player directly in front of entrance
-						fy = y + speed * direction;
-					}
+					// TODO max speed so to keep player directly in front of entrance
+					if (tileA.isWalkable) fy = y - speed;
+					if (tileB.isWalkable) fy = y + speed;
+
 					// snap player to the border of the tile
 					fx = ti * TILE - WIDTH;
 				}
@@ -139,12 +138,12 @@ namespace Bomberman.Entities {
 				tileA = stage.GetTile(ti, (ty - SIDE) / TILE);
 				tileB = stage.GetTile(ti, (ty + SIDE) / TILE);
 				if ((!tileA.isWalkable || !tileB.isWalkable) && (x - FACE) / TILE > ti) {
+
 					// if there is a walkable tile then make bomberman slide in front of the entrance
-					tile = stage.GetTile(ti, ty / TILE);
-					if (tile.isWalkable) {
-						int direction = ty % TILE < 8000 ? 1 : -1;
-						fy = y + speed * direction;
-					}
+					// TODO max speed so to keep player directly in front of entrance
+					if (tileA.isWalkable) fy = y - speed;
+					if (tileB.isWalkable) fy = y + speed;
+
 					// snap player to the border of the tile
 					fx = (ti + 1) * TILE + FACE;
 				}
@@ -157,12 +156,12 @@ namespace Bomberman.Entities {
 				tileA = stage.GetTile((fx - SIDE) / TILE, tj);
 				tileB = stage.GetTile((fx + SIDE) / TILE, tj);
 				if ((!tileA.isWalkable || !tileB.isWalkable) && (y + FACE) / TILE < tj) {
+
 					// if there is a walkable tile then make bomberman slide in front of the entrance
-					tile = stage.GetTile(tx / TILE, tj);
-					if (tile.isWalkable) {
-						int direction = tx % TILE < 8000 ? 1 : -1;
-						fx = x + speed * direction;
-					}
+					// TODO max speed so to keep player directly in front of entrance
+					if (tileA.isWalkable) fx = x - speed;
+					if (tileB.isWalkable) fx = x + speed;
+
 					// snap player to the border of the tile
 					fy = tj * TILE - WIDTH;
 				}
@@ -171,12 +170,12 @@ namespace Bomberman.Entities {
 				tileA = stage.GetTile((fx - SIDE) / TILE, tj);
 				tileB = stage.GetTile((fx + SIDE) / TILE, tj);
 				if ((!tileA.isWalkable || !tileB.isWalkable) && (y - FACE) / TILE > tj) {
+
 					// if there is a walkable tile then make bomberman slide in front of the entrance
-					tile = stage.GetTile(tx / TILE, tj);
-					if (tile.isWalkable) {
-						int direction = tx % TILE < 8000 ? 1 : -1;
-						fx = x + speed * direction;
-					}
+					// TODO max speed so to keep player directly in front of entrance
+					if (tileA.isWalkable) fx = x - speed;
+					if (tileB.isWalkable) fx = x + speed;
+
 					// snap player to the border of the tile
 					fy = (tj + 1) * TILE + FACE;
 				}

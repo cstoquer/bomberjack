@@ -15,6 +15,9 @@ namespace Bomberman {
 
 		public static Game instance;
 
+		[Header("STAGE")]
+		public string stageId;
+
 		[Header("GAME CONTANTS")]
 		public int MAX_BOMB;
 		public int MAX_FLAME;
@@ -27,7 +30,7 @@ namespace Bomberman {
 			instance = this;
 
 			Stage stage = Instantiate(stagePrefab).GetComponent<Stage>();
-			stage.Init("classic");
+			stage.Init(stageId);
 
 			for (int i = 0; i < 4; i++) {
 				Player player = Instantiate(playerPrefab).GetComponent<Player>();
