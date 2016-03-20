@@ -18,4 +18,6 @@ pixelbox
 
 Then, using a web browser go to `http://localhost:3000/tools/`
 
+See [pixelbox's documentation](https://github.com/cstoquer/pixelbox#tools) to learn about map editor usage.
+
 ![bomberman editor](https://cloud.githubusercontent.com/assets/2462139/13896462/3dce99ce-edcf-11e5-9402-ce3f50a782f2.png)
