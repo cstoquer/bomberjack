@@ -1,0 +1,13 @@
+{
+	"name": "map editor",
+	"author": "Cedric Stoquer",
+	"description": "Editor toolset based on Pixelbox",
+	"scripts": {
+		"start": "node index.js"
+	},
+	"dependencies": {
+		"pixelbox": "0.1.18",
+		"fs-extra": "0.26.4"
+	},
+	"main": "index.js"
+}
