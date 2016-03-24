@@ -7,13 +7,13 @@ Node.js version 0.10 or up. We recommend that you use [NVM](https://github.com/c
 ## Installation
 
 ```bash
-npm install pixelbox -g
+npm install
 ```
 
 ## Usage
 Inside this `Editor` directory, start pixelbox server with the following command:
 ```bash
-pixelbox
+node index.js
 ```
 
 Then, using a web browser go to `http://localhost:3000/tools/`
