@@ -6,7 +6,7 @@
 		"start": "node index.js"
 	},
 	"dependencies": {
-		"pixelbox": "0.1.18",
+		"pixelbox": "0.1.19",
 		"fs-extra": "0.26.4"
 	},
 	"main": "index.js"
