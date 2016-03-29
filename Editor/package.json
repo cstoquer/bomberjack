@@ -1,5 +1,5 @@
 {
-	"name": "map editor",
+	"name": "mapEditor",
 	"author": "Cedric Stoquer",
 	"description": "Editor toolset based on Pixelbox",
 	"scripts": {
